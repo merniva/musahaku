@@ -1,0 +1,169 @@
+* {
+    box-sizing: border-box;
+    margin:0;
+    padding:0;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1rem;
+    background-image: url("background-3147808_1920.jpg");
+    background-color: rgb(238, 238, 238);
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+.kehys{
+    height: 100%;
+    width:100%;
+}
+
+nav {
+    color: #000;
+    background-color:#EFC050;
+    opacity:0.8;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: center;
+}
+ul {
+    list-style-type: none;
+}
+a {
+    color: #000;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+.logo a:hover {
+    text-decoration: none;
+}
+.menu li {
+    font-size: 16px;
+    padding: 15px 5px;
+    white-space: nowrap;
+}
+.logo a,
+.toggle a {
+    font-size: 20px;
+}
+
+.footer {
+    color: #000;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .footer p {
+    background-color:#EFC050;
+    opacity:0.8;
+    padding: 1rem 2rem;
+  }
+ /* .menu {
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .links {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .login {
+    margin-left: 1rem;
+  }
+
+  */
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+    flex-wrap: wrap;
+    flex-direction: column;
+    padding:2rem;
+    flex-grow: 1;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding:2rem;
+  }
+  
+  .hakukentta {
+      height: 38px;
+      font-size:14px;
+      border-radius: 20px;
+      padding-left:5px;
+      border-style: none;
+  }
+  .button {
+    background-color: #EFC050;
+    color:#000;
+    padding: 8px;
+    text-align: center;
+    text-decoration: none;
+    font-weight:bold;
+    font-size:16px;
+    display: inline-block;
+    border-radius: 20px;
+    border-style: none;
+    transition-duration: 0.3s;
+    font-family: 'Maven Pro', sans-serif;
+}
+.button:hover {
+    background-color: #c0378f;
+  }
+
+  @media all and (max-width: 600px) {   
+    .menu {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .toggle {
+        order: 1;
+    }
+    .item.button {
+        order: 2;
+    }
+    .item {
+        width: 100%;
+        text-align: center;
+        order: 3;
+        display: none;
+    }
+    .item.active {
+        display: block;
+    }
+  }
+@media all and (min-width: 601px) {
+    .item {
+        display: inline-block;
+        width: auto;
+    }
+    .toggle {
+        display: none;
+    }
+    .item {
+        order: 1;
+    }
+    .button {
+        order: 2;
+    }
+   
+    .menu li {
+        padding: 15px 10px;
+    }
+
+    .container {
+        min-height: 25rem;
+      }
+    
+}
