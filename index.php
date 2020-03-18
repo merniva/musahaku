@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,9 +30,6 @@
         </ul>
     </nav>
     <div class='header'>
-            <div class='logo'>
-                
-            </div>
     </div>
     <div class='container'>
             <h2>Hae genren perusteella <i class="fas fa-search"></i></h2><br>
@@ -39,12 +37,22 @@
                 <input type="radio" id="albumi" name="genrevalinta" value="albumi" checked>
                     <label for="albumi">Hae albumeita &nbsp;</label>
                 <input type="radio" id="artisti" name="genrevalinta" value="artisti">
-                    <label for="artisti">Hae artisteja </label><br><br>
+                    <label for="artisti">Hae artisteja</label><br><br>
                 <input name="nimi" class="hakukentta" placeholder="Anna genren nimi" autocomplete="off" required><br>
                 <input type="submit" name="button" class="button" value="HAE">
             </form><br>
     </div>
     <div id='tulokset'>
+    </div>
+    <div id="infoModal" class="modal">
+        <div class="modalSisalto">
+            <h4 id="infoOtsikko">Odota hetki...</h4><br>
+            <p id="infoSisalto"></p><br>
+            <h5 id="lisaOtsikko"></h5>
+            <ul id="lisaInfo"></ul>
+            <p class="close">&times;
+            </p>
+        </div>
     </div>
     <div class='footer'>
         <p>Tämä on footer</p>
@@ -52,35 +60,109 @@
 </div>
 
 <script> 
-    var sivu = 1; //&page=${sivu}
-    // <img src=${artisti.image[1].#text}></img>
-    //<h3>${albumi["@attr"].rank}</h3>
-    //<h3>${artisti["@attr"].rank}</h3>
+// info-ikkunan avaus
+   function naytaInfo(artistiNimi) {
+        document.getElementById("infoSisalto").innerHTML = "Ladataan...";
+        console.log(artistiNimi);
+        var modal = document.getElementById("infoModal");
+        var p = document.getElementsByClassName("close")[0];
+        modal.style.display = "block";
+        p.onclick = function() {
+            modal.style.display = "none";
+            document.getElementById("lisaOtsikko").innerHTML ="";
+            document.getElementById("lisaInfo").innerHTML = "";
+        }
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+                document.getElementById("lisaOtsikko").innerHTML ="";
+                document.getElementById("lisaInfo").innerHTML = "";
+            }
+        }
+        document.getElementById("infoOtsikko").innerHTML = artistiNimi;
+        $.ajax({
+            async:true,
+            type: 'GET',
+            url: `http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${artistiNimi}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`,
+            success: (payload) => {
+                console.log(payload)
+                document.getElementById("infoSisalto").innerHTML = payload.artist.bio.summary;
+                document.getElementById("lisaOtsikko").innerHTML ="Samankaltaisia artisteja:";
+                document.getElementById("lisaInfo").innerHTML = payload.artist.similar.artist
+                .map(({name,url})=>`<li><a href="${url}">${name}</a></li>`).join("");
+            }
+        });
+    }
+
+// albumi-info
+    function albumiInfo(albumiNimi, artistiNimi) {
+        document.getElementById("infoSisalto").innerHTML = "Ladataan...";
+        console.log(albumiNimi);
+        var modal = document.getElementById("infoModal");
+        var p = document.getElementsByClassName("close")[0];
+        modal.style.display = "block";
+        p.onclick = function() {
+            modal.style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+        document.getElementById("infoOtsikko").innerHTML = `${artistiNimi}: ${albumiNimi}`;
+        $.ajax({
+            async:true,
+            type: 'GET',
+            url: `http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=b7ba2a47c41146f14422726a121f27b7&artist=${artistiNimi}&album=${albumiNimi}&format=json`,
+            success: (payload) => {
+                console.log(payload)
+                if (payload.album.wiki) {
+                    document.getElementById("infoSisalto").innerHTML = payload.album.wiki.summary;
+                    document.getElementById("lisaInfo").innerHTML = "<h3>Kappaleet:</h3>"+payload.album.tracks.track
+                    .map(({name})=>`<li>${name}</li>`).join("");
+                } else {
+                    document.getElementById("infoSisalto").innerHTML = "";
+                    document.getElementById("lisaInfo").innerHTML = "<h3>Kappaleet:</h3>"+payload.album.tracks.track
+                    .map(({name})=>`<li>${name}</li>`).join("");
+                }
+            }
+        });
+    }
+
+// artistihakutulosten järjestäminen
     function naytaArtisti(artisti) {
         let laatikko = document.createElement("div");
         laatikko.innerHTML = `
             <div class='tuloslaatikko'>
             <a href="${artisti.url}">
-                <img src="black-2403543_640.png" alt="artistin default-kuva" width="200" height="200"></img>
+                <img src="black-2403543_640.png" alt="artistin default-kuva" width="150" height="150"></img>
                 <h3>${artisti.name}</h3>
             </a>
+            <button id="katsoLisaa">Katso lisää</button>
             </div>
             `;
+        laatikko.onclick=()=>naytaInfo(artisti.name)
         document.getElementById('tulokset').appendChild(laatikko)
     }
+
+// albumihakutulosten järjestäminen
     function naytaAlbumi(albumi) {
         let laatikko = document.createElement("div");
         laatikko.innerHTML = `
             <div class='tuloslaatikko'>
             <a href="${albumi.url}">
-                <img src="${albumi.image[2]["#text"]}" width="180" height="180"></img>
+                <img src="${albumi.image[2]["#text"]}" width="150" height="150"></img>
                 <h3>${albumi.artist.name}:<br></h3>
                 <p>${albumi.name}</p>
             </a>
+            <button id="katsoLisaa">Katso lisää</button>
             </div>
             `;
+        laatikko.onclick=()=>albumiInfo(albumi.name, albumi.artist.name)
         document.getElementById('tulokset').appendChild(laatikko)
     }
+
+// linkkivalikko
     $(function() {
         $(".toggle").on("click", function() {
             if ($(".item").hasClass("active")) {
@@ -93,39 +175,38 @@
         });
     });
 
+// artistien tai albumien haku
     $(".haku").submit(function(event) {
         event.preventDefault();
         let lomake = document.getElementById("genrehaku");
         let datalomake = new FormData(lomake);
         let nimi = datalomake.get("nimi");
         let genre = datalomake.get("genrevalinta");
-        let artistiurl = `http://ws.audioscrobbler.com/2.0/?method=tag.gettopartists&tag=${nimi}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
-        let albumiurl = `http://ws.audioscrobbler.com/2.0/?method=tag.gettopalbums&tag=${nimi}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
+        let artistiurl = `http://ws.audioscrobbler.com/2.0/?method=tag.gettopartists&tag=${nimi}&limit=30&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
+        let albumiurl = `http://ws.audioscrobbler.com/2.0/?method=tag.gettopalbums&tag=${nimi}&limit=30&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
         console.log(artistiurl, albumiurl);
         document.getElementById("tulokset").innerHTML = "";
         if (genre === "artisti") {
             $.ajax({
-            async:true,
-            type: 'GET',
-            url: artistiurl,
-            success: (payload) => {
-                console.log(payload)
-                payload.topartists.artist.forEach((artist)=> naytaArtisti(artist));
-            }
+                async:true,
+                type: 'GET',
+                url: artistiurl,
+                success: (payload) => {
+                    console.log(payload)
+                    payload.topartists.artist.forEach((artist)=> naytaArtisti(artist));
+                }
             });
         } else if (genre === "albumi") {
             $.ajax({
-            async:true,
-            type: 'GET',
-            url: albumiurl,
-            success: (payload) => {
-                console.log(payload)
-                payload.albums.album.forEach((album)=> naytaAlbumi(album));
-            }
+                async:true,
+                type: 'GET',
+                url: albumiurl,
+                success: (payload) => {
+                    console.log(payload)
+                    payload.albums.album.forEach((album)=> naytaAlbumi(album));
+                }
             });
-        } else {
-            //ilmoitus tyhjästä kentästä
-        }
+        } else {}
     });
 </script>
 </body>
