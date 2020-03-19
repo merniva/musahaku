@@ -36,7 +36,7 @@
     <div class='container'>
     <div class="kayttajalomake" >
         <div id="virheviesti"></div>
-        <h3>Kirjaudu</h3><br>
+        <h2>Kirjaudu</h2><br>
         <p class="kayttajainfo"></p>
         <form action="kirjautumiskutsu.php" method="post" id="kirjaudu" class="kayttajalomake">
         <span>

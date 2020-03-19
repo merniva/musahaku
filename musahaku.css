@@ -81,23 +81,6 @@ h3, h4 {
     background-color:#c0378f;
     padding: 0.5rem 2rem;
   }
-  
- /* .menu {
-    width: 90%;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .links {
-    display: flex;
-    justify-content: flex-end;
-  }
-  
-  .login {
-    margin-left: 1rem;
-  }
-
-  */
 
   .container {
     display: flex;
@@ -175,6 +158,29 @@ h3, h4 {
     background-color: #ffe260;
   }
 
+  .sivunvaihto {
+    display: none;
+    justify-content: center;
+  }
+
+  .sivubutton {
+    background-color: #000;
+    color:#FFF;
+    padding: 5px 10px;
+    margin:0.5rem;
+    text-decoration: none;
+    font-weight:bold;
+    font-size:1rem;
+    border-radius: 10px;
+    border-style: none;
+    transition-duration: 0.2s;
+    font-family: 'Maven Pro', sans-serif;
+    text-align: center;
+  }
+
+  .sivubutton:hover {
+      background-color: #ffe260;
+    }
   .kayttajainfo {
     font-size: smaller;
   }
@@ -189,6 +195,15 @@ h3, h4 {
     flex-wrap: wrap;
   }
   
+  #lataus {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  #sivunro {
+    font-weight: bolder;
+  }
   .tuloslaatikko {
     background-color: rgba(255, 255, 255, 0.7);
     margin:0.5rem;
@@ -199,6 +214,7 @@ h3, h4 {
     justify-content: center;
     text-align: center;
     padding:0.5rem;
+    padding-top:1rem;
     border: 1px solid #000;
     overflow: hidden;
   }

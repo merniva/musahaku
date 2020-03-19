@@ -65,7 +65,12 @@
                 Kokeile hakua esimerkiksi musiikkityyleittäin (esim. <i>post-punk</i>), soittimittain (esim. <i>brass</i>) tai maittain (esim. <i>japanese</i>).
             </form><br>
     </div>
+    <div id='lataus'>
+    </div>
     <div id='tulokset'>
+    </div>
+    <div class='sivunvaihto' id="sivunvaihto">
+        <span><button type="button" class="sivubutton" id="edellinen"><<</button><span id="sivunro"></span><button type="button" class="sivubutton" id="seuraava">>></button></span>
     </div>
     <div id="infoModal" class="modal">
         <div class="modalSisalto">
@@ -83,13 +88,13 @@
 </div>
 
 <script> 
-// info-ikkunan avaus
+// infoikkunan avaus
    function naytaInfo(artistiNimi) {
         document.getElementById("infoSisalto").innerHTML = "Ladataan...";
-        console.log(artistiNimi);
         var modal = document.getElementById("infoModal");
         var p = document.getElementsByClassName("close")[0];
         modal.style.display = "block";
+        // sulkeminen klikkauksella
         p.onclick = function() {
             modal.style.display = "none";
             document.getElementById("lisaOtsikko").innerHTML ="";
@@ -103,12 +108,14 @@
             }
         }
         document.getElementById("infoOtsikko").innerHTML = artistiNimi;
+        // haetaan lisäinfo
         $.ajax({
             async:true,
             type: 'GET',
             url: `http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${artistiNimi}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`,
             success: (payload) => {
                 console.log(payload)
+                // näytetään artistibio ja samankaltaiset artistit
                 document.getElementById("infoSisalto").innerHTML = payload.artist.bio.summary;
                 document.getElementById("lisaOtsikko").innerHTML ="Samankaltaisia artisteja:";
                 document.getElementById("lisaInfo").innerHTML = payload.artist.similar.artist
@@ -120,10 +127,10 @@
 // albumi-info
     function albumiInfo(albumiNimi, artistiNimi) {
         document.getElementById("infoSisalto").innerHTML = "Ladataan...";
-        console.log(albumiNimi);
         var modal = document.getElementById("infoModal");
         var p = document.getElementsByClassName("close")[0];
         modal.style.display = "block";
+        // sulkeminen klikkauksella
         p.onclick = function() {
             modal.style.display = "none";
         }
@@ -133,12 +140,14 @@
             }
         }
         document.getElementById("infoOtsikko").innerHTML = `${artistiNimi}: ${albumiNimi}`;
+        // haetaan lisäinfo
         $.ajax({
             async:true,
             type: 'GET',
             url: `http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=b7ba2a47c41146f14422726a121f27b7&artist=${artistiNimi}&album=${albumiNimi}&format=json`,
             success: (payload) => {
                 console.log(payload)
+                // näytetään albumiwiki ja kappalelistaus (jos wikiä ei löydy, pelkkä kappalelistaus)
                 if (payload.album.wiki) {
                     document.getElementById("infoSisalto").innerHTML = payload.album.wiki.summary;
                     document.getElementById("lisaInfo").innerHTML = "<h3>Kappaleet:</h3>"+payload.album.tracks.track
@@ -157,8 +166,8 @@
         let laatikko = document.createElement("div");
         laatikko.innerHTML = `
             <div class='tuloslaatikko'>
-            <a href="${artisti.url}">
-                <img src="black-2403543_640.png" alt="artistin default-kuva" width="150" height="150"></img>
+            <a>
+                <img src="black-1296338_640.png" alt="artistin default-kuva" width="150" height="150"></img>
                 <h3>${artisti.name}</h3>
             </a>
             <button id="katsoLisaa">Katso lisää</button>
@@ -173,7 +182,7 @@
         let laatikko = document.createElement("div");
         laatikko.innerHTML = `
             <div class='tuloslaatikko'>
-            <a href="${albumi.url}">
+            <a>
                 <img src="${albumi.image[2]["#text"]}" width="160" height="160"></img>
                 <h3>${albumi.artist.name}:<br></h3>
                 <p class = "hakutulos">${albumi.name}</p>
@@ -197,39 +206,44 @@
             }
         });
     });
-    let page = 1;
 
-    // kutsu kun painetaan next nappia
+// sivunvaihto
+    let sivu = 1;
+
     function next() {
-        page ++;
+        sivu++;
     }
 
-    // kutsu kun painetaan back nappia
     function back() {
-        page--;
+        sivu--;
     }
 
-    function setPage(nro) {
-        page = nro;
-    }
-// artistien tai albumien haku
-// HUOM: ERISTÄ OMAAN FUNKTIOON ETTÄ VOI UUDELLEENKÄYTTÄÄ
-// HUOM: MUISTA RESETOIDA PAGE HAKUNAPPIA PAINAESSA
-    $("#seuraava").click(function(event) {
-        next();
-        teeAjax();
+    $("#edellinen").click(function(event){
+        if (sivu > 1){
+        back();
+        teeHaku(event);
+        }
     })
-    
-    $(".haku").submit(function(event) {
+
+    $("#seuraava").click(function(event){
+        next();
+        teeHaku(event);
+    })
+
+
+// haetaan tulokset
+    function teeHaku(event) {
+        document.getElementById('tulokset').innerHTML = "";
+        document.getElementById('lataus').innerHTML = "Ladataan...";
+        document.getElementById('sivunvaihto').style.display = "flex";
+        document.getElementById('sivunro').innerHTML = sivu;
         event.preventDefault();
         let lomake = document.getElementById("genrehaku");
         let datalomake = new FormData(lomake);
         let nimi = datalomake.get("nimi");
         let genre = datalomake.get("genrevalinta");
-        let artistiurl = `http://ws.audioscrobbler.com/2.0/?method=tag.gettopartists&tag=${nimi}&page=${page}&limit=48&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
-        let albumiurl = `http://ws.audioscrobbler.com/2.0/?method=tag.gettopalbums&tag=${nimi}&limit=48&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
-        console.log(artistiurl, albumiurl);
-        document.getElementById("tulokset").innerHTML = "";
+        let artistiurl = `http://ws.audioscrobbler.com/2.0/?method=tag.gettopartists&tag=${nimi}&page=${sivu}&limit=24&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
+        let albumiurl = `http://ws.audioscrobbler.com/2.0/?method=tag.gettopalbums&tag=${nimi}&page=${sivu}&limit=24&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
         if (genre === "artisti") {
             $.ajax({
                 async:true,
@@ -238,6 +252,7 @@
                 success: (payload) => {
                     console.log(payload)
                     payload.topartists.artist.forEach((artist)=> naytaArtisti(artist));
+                    document.getElementById('lataus').innerHTML = "";
                 }
             });
         } else if (genre === "albumi") {
@@ -248,9 +263,16 @@
                 success: (payload) => {
                     console.log(payload)
                     payload.albums.album.forEach((album)=> naytaAlbumi(album));
+                    document.getElementById('lataus').innerHTML = "";
                 }
             });
         } else {}
+    }
+
+// hae-buttonin aktivointi
+    $(".haku").submit(function(event){
+        sivu = 1;
+        teeHaku(event);
     });
 </script>
 </body>

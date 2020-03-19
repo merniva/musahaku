@@ -31,9 +31,9 @@ if ($stmt = $yhteys->prepare('SELECT id, salasana FROM kayttaja WHERE nimi = ?')
         http_response_code(400);
         exit('Virheellinen käyttäjänimi!');
     }
-    if (strlen($_POST['salasana']) < 7) {
+    if (strlen($_POST['salasana']) < 6) {
         http_response_code(400);
-        exit('Salasanan on oltava vähintään seitsemän merkkiä pitkä!');
+        exit('Salasanan on oltava vähintään kuusi merkkiä pitkä!');
     }
 
     if (($_POST['salasana']) != ($_POST['salasana2'])) {

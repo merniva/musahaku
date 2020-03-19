@@ -36,7 +36,7 @@
     <div class='container'>
         <div class="kayttajalomake" >
         <div id="virheviesti"></div>
-        <h3>Rekisteröidy</h3><br>
+        <h2>Rekisteröidy</h2><br>
         <p class="kayttajainfo"></p>
         <form action="rekisterikutsu.php" method="post" id="rekisteroidy" class="kayttajalomake" autocomplete="off">
             <span>
@@ -64,7 +64,7 @@
             <input name="salasana2" id="salasana2" class="kayttajakentta" placeholder="Salasana uudestaan" type="password" required><br><br>
             </span>
             <input type="submit" value="Rekisteröidy" id="kayttajabutton" class="kayttajabutton"><br><br>
-        <p>Onko sinulla jo tunnukset? <br><a href="kirjaudu.php">Kirjaudu sisään tästä.</a></p>
+        <p>Onko sinulla jo tunnukset? <br><strong><a href="kirjaudu.php">Kirjaudu sisään tästä.</a></strong></p>
         </form>
         </div>
     </div>

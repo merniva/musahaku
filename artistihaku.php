@@ -37,7 +37,12 @@
                 <input type="submit" name="button" class="button" value="HAE">
             </form><br>
     </div>
+    <div id='lataus'>
+    </div>
     <div id='tulokset'>
+    </div>
+    <div class='sivunvaihto' id="sivunvaihto">
+        <span><button type="button" class="sivubutton" id="edellinen"><<</button><span id="sivunro"></span><button type="button" class="sivubutton" id="seuraava">>></button></span>
     </div>
     <div id="infoModal" class="modal">
         <div class="modalSisalto">
@@ -53,6 +58,7 @@
         <p>Tämä on footer</p>
     </div>
 </div>
+
 <script> 
 // info-ikkunan avaus
     function naytaInfo(artistiNimi) {
@@ -90,8 +96,8 @@
             let laatikko = document.createElement("div");
             laatikko.innerHTML = `
                 <div class='tuloslaatikko'>
-                <a href="${artisti.url}">
-                    <img src="black-2403543_640.png" alt="artistin default-kuva" width="150" height="150"></img>
+                <a>
+                    <img src="black-1296338_640.png" alt="artistin default-kuva" width="150" height="150"></img>
                     <h3>${artisti.name}</h3>
                 </a>
                 <button id="katsoLisaa">Katso lisää</button>
@@ -114,13 +120,40 @@
         });
     });
 
-// samankaltaisten haku
-    $(".haku").submit(function(event) {
+// sivunvaihto
+/*let sivu = 1;
+
+function next() {
+    sivu++;
+}
+
+function back() {
+    sivu--;
+}
+
+$("#edellinen").click(function(event){
+    if (sivu > 1){
+    back();
+    teeHaku(event);
+    }
+})
+
+$("#seuraava").click(function(event){
+    next();
+    teeHaku(event);
+})
+*/
+// haetaan tulokset
+    function teeHaku(event) {
+        document.getElementById('tulokset').innerHTML = "";
+        document.getElementById('lataus').innerHTML = "Ladataan...";
+       // document.getElementById('sivunvaihto').style.display = "flex";
+      //  document.getElementById('sivunro').innerHTML = sivu;
         event.preventDefault();
         let lomake = document.getElementById("artistihaku");
         let datalomake = new FormData(lomake);
         let nimi = datalomake.get("nimi");
-        let artistihaku = `http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=${nimi}&limit=48&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
+        let artistihaku = `http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=${nimi}&limit=30&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
         console.log(artistihaku);
         document.getElementById("tulokset").innerHTML = "";
             $.ajax({
@@ -130,8 +163,16 @@
                 success: (payload) => {
                     console.log(payload)
                     payload.similarartists.artist.forEach((artist)=> naytaSamanKaltaiset(artist));
+                    document.getElementById('lataus').innerHTML = "";
                 }
             });
+    }
+
+
+// hae-buttonin aktivointi
+    $(".haku").submit(function(event) {
+       // sivu = 1;
+        teeHaku(event);
     });
 </script>
 </body>
