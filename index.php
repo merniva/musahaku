@@ -1,4 +1,6 @@
-
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,18 +20,37 @@
             <li class="item"><a href="index.php">Genret</a></li>
             <li class="item"><a href="artistihaku.php">Artistit</a></li>
             </li>
-            <li class="item">
-                <i class="fas fa-sign-in-alt"></i>
-                <a href="#">Kirjaudu</a>
+        <?php 
+        if (isset($_SESSION['nimi'])) {
+            //echo "<p>Tervetuloa etsimään musiikkia, ". $_SESSION['nimi']."!<br><br>";
+            echo "<li class=\"item\">
+                    <i class=\"fas fa-sign-out-alt\" style=\"color:rgb(201, 0, 0);\"></i>
+                    <a href=\"logout.php\" style=\"color:rgb(201, 0, 0);\">Kirjaudu ulos</a></p>
+                    </li>";
+        } else {
+            echo "<li class=\"item\">
+                <i class=\"fas fa-sign-in-alt\"></i>
+                <a href=\"kirjaudu.php\">Kirjaudu</a>
             </li>
-            <li class="item">
-                <i class="fas fa-user"></i>
-                <a href="#">Rekisteröidy</a>
+            <li class=\"item\">
+                <i class=\"fas fa-user\"></i>
+                <a href=\"rekisteroidy.php\">Rekisteröidy</a>
             </li>
-            <li class="toggle"><a href="#"><i class="fas fa-bars"></i></a></li>
-        </ul>
+            <li class=\"toggle\"><a href=\"#\"><i class=\"fas fa-bars\"></i></a></li>
+        </ul>";
+        }    
+        ?>
     </nav>
     <div class='header'>
+        <?php if (isset($_SESSION['success'])): ?>
+            <div class="error tai success">
+                <h3><?php 
+                    echo $_SESSION['success'];
+                    unset($_SESSION['success']);
+                    ?>
+                </h3>
+            </div>
+        <?php endif ?>
     </div>
     <div class='container'>
             <h2>Hae genren perusteella <i class="fas fa-search"></i></h2><br>
@@ -39,7 +60,9 @@
                 <input type="radio" id="artisti" name="genrevalinta" value="artisti">
                     <label for="artisti">Hae artisteja</label><br><br>
                 <input name="nimi" class="hakukentta" placeholder="Anna genren nimi" autocomplete="off" required><br>
-                <input type="submit" name="button" class="button" value="HAE">
+                <input type="submit" name="button" class="button" value="HAE"><br>
+                <p id = "vinkkiboksi"><strong>Vinkki!</strong> Haethan vain yhtä genreä kerrallaan. <br>
+                Kokeile hakua esimerkiksi musiikkityyleittäin (esim. <i>post-punk</i>), soittimittain (esim. <i>brass</i>) tai maittain (esim. <i>japanese</i>).
             </form><br>
     </div>
     <div id='tulokset'>
@@ -151,9 +174,9 @@
         laatikko.innerHTML = `
             <div class='tuloslaatikko'>
             <a href="${albumi.url}">
-                <img src="${albumi.image[2]["#text"]}" width="150" height="150"></img>
+                <img src="${albumi.image[2]["#text"]}" width="160" height="160"></img>
                 <h3>${albumi.artist.name}:<br></h3>
-                <p>${albumi.name}</p>
+                <p class = "hakutulos">${albumi.name}</p>
             </a>
             <button id="katsoLisaa">Katso lisää</button>
             </div>
@@ -174,16 +197,37 @@
             }
         });
     });
+    let page = 1;
 
+    // kutsu kun painetaan next nappia
+    function next() {
+        page ++;
+    }
+
+    // kutsu kun painetaan back nappia
+    function back() {
+        page--;
+    }
+
+    function setPage(nro) {
+        page = nro;
+    }
 // artistien tai albumien haku
+// HUOM: ERISTÄ OMAAN FUNKTIOON ETTÄ VOI UUDELLEENKÄYTTÄÄ
+// HUOM: MUISTA RESETOIDA PAGE HAKUNAPPIA PAINAESSA
+    $("#seuraava").click(function(event) {
+        next();
+        teeAjax();
+    })
+    
     $(".haku").submit(function(event) {
         event.preventDefault();
         let lomake = document.getElementById("genrehaku");
         let datalomake = new FormData(lomake);
         let nimi = datalomake.get("nimi");
         let genre = datalomake.get("genrevalinta");
-        let artistiurl = `http://ws.audioscrobbler.com/2.0/?method=tag.gettopartists&tag=${nimi}&limit=30&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
-        let albumiurl = `http://ws.audioscrobbler.com/2.0/?method=tag.gettopalbums&tag=${nimi}&limit=30&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
+        let artistiurl = `http://ws.audioscrobbler.com/2.0/?method=tag.gettopartists&tag=${nimi}&page=${page}&limit=48&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
+        let albumiurl = `http://ws.audioscrobbler.com/2.0/?method=tag.gettopalbums&tag=${nimi}&limit=48&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
         console.log(artistiurl, albumiurl);
         document.getElementById("tulokset").innerHTML = "";
         if (genre === "artisti") {

@@ -19,11 +19,11 @@
             </li>
             <li class="item">
                 <i class="fas fa-sign-in-alt"></i>
-                <a href="#">Kirjaudu</a>
+                <a href="kirjaudu.php">Kirjaudu</a>
             </li>
             <li class="item">
                 <i class="fas fa-user"></i>
-                <a href="#">Rekisteröidy</a>
+                <a href="rekisteroidy.php">Rekisteröidy</a>
             </li>
             <li class="toggle"><a href="#"><i class="fas fa-bars"></i></a></li>
         </ul>
@@ -120,7 +120,7 @@
         let lomake = document.getElementById("artistihaku");
         let datalomake = new FormData(lomake);
         let nimi = datalomake.get("nimi");
-        let artistihaku = `http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=${nimi}&limit=30&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
+        let artistihaku = `http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=${nimi}&limit=48&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
         console.log(artistihaku);
         document.getElementById("tulokset").innerHTML = "";
             $.ajax({
