@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,22 +14,36 @@
 </head>
 <body>
 <div class='kehys'>
-    <nav>
-        <ul class="menu">
-            <li class="item"><a href="#">About</a></li>
+<nav>
+    <ul class="menu">
+            <li class="item"><a href="about.php">About</a></li>
             <li class="item"><a href="index.php">Genret</a></li>
             <li class="item"><a href="artistihaku.php">Artistit</a></li>
             </li>
-            <li class="item">
-                <i class="fas fa-sign-in-alt"></i>
-                <a href="kirjaudu.php">Kirjaudu</a>
-            </li>
-            <li class="item">
-                <i class="fas fa-user"></i>
-                <a href="rekisteroidy.php">Rekisteröidy</a>
-            </li>
-            <li class="toggle"><a href="#"><i class="fas fa-bars"></i></a></li>
-        </ul>
+        <?php 
+        if (isset($_SESSION['nimi'])) {
+            //echo "<p>Tervetuloa etsimään musiikkia, ". $_SESSION['nimi']."!<br><br>";
+            echo "<li class=\"item\"><a href=\"kayttajahaku.php\">Hae käyttäjänimellä</a>
+                    </li>
+                    <li class=\"item\">
+                    <i class=\"fas fa-sign-out-alt\" style=\"color:rgb(201, 0, 0);\"></i>
+                    <a href=\"logout.php\" style=\"color:rgb(201, 0, 0);\">Kirjaudu ulos</a></p>
+                    </li>
+                    <li class=\"toggle\"><a href=\"#\"><i class=\"fas fa-bars\"></i></a></li>
+                    </ul>";
+                    } else {
+                        echo "<li class=\"item\">
+                            <i class=\"fas fa-sign-in-alt\"></i>
+                            <a href=\"kirjaudu.php\">Kirjaudu</a>
+                        </li>
+                        <li class=\"item\">
+                            <i class=\"fas fa-user\"></i>
+                            <a href=\"rekisteroidy.php\">Rekisteröidy</a>
+                        </li>
+                        <li class=\"toggle\"><a href=\"#\"><i class=\"fas fa-bars\"></i></a></li>
+                    </ul>";
+                    }    
+                    ?>
     </nav>
     <div class='header'>
     </div>

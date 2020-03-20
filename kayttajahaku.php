@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>OG Musahaku</title>
+    <title>Hae käyttäjänimellä</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Maven+Pro:900|Open+Sans&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
 </head>
 <body>
 <div class='kehys'>
-    <nav>
+<nav>
     <ul class="menu">
             <li class="item"><a href="about.php">About</a></li>
             <li class="item"><a href="index.php">Genret</a></li>
@@ -43,30 +43,27 @@
                         <li class=\"toggle\"><a href=\"#\"><i class=\"fas fa-bars\"></i></a></li>
                     </ul>";
                     }    
-        ?>
+                    ?>
     </nav>
     <div class='header'>
-        <?php if (isset($_SESSION['success'])): ?>
-            <div class="error tai success">
-                <h3><?php 
-                    echo $_SESSION['success'];
-                    unset($_SESSION['success']);
-                    ?>
-                </h3>
-            </div>
-        <?php endif ?>
     </div>
     <div class='container'>
-            <h2>Hae genren perusteella <i class="fas fa-search"></i></h2><br>
-            <form action="index.php" method="get" class="haku" id="genrehaku">
-                <input type="radio" id="albumi" name="genrevalinta" value="albumi" checked>
-                    <label for="albumi">Hae albumeita &nbsp;</label>
-                <input type="radio" id="artisti" name="genrevalinta" value="artisti">
-                    <label for="artisti">Hae artisteja</label><br><br>
-                <input name="nimi" class="hakukentta" placeholder="Anna genren nimi" autocomplete="off" required><br>
+        <h2>Hae last.fm -käyttäjätunnuksella <i class="fas fa-search"></i></h2><br>
+            <form action="kayttajahaku.php" method="get" class="haku" id="kayttajahaku">
+                <input type="radio" id="albumi" name="hakukohde" value="albumi" checked>
+                    <label for="albumi">Hae käyttäjän kuunnelluimmat albumit &nbsp;</label>
+                <input type="radio" id="artisti" name="hakukohde" value="artisti">
+                    <label for="artisti">Hae käyttäjän kuunnelluimmat artistit</label><br><br>
+                <h4>Ajalta:</h4>
+                <input type="radio" id="vuosi" name="range" value="12month" checked>
+                    <label for="vuosi">Viimeiset 12 kk &nbsp;</label>
+                <input type="radio" id="overall" name="range" value="overall">
+                    <label for="overall">Kaikki</label>
+                <br><br>
+                <input name="nimi" class="hakukentta" placeholder="Syötä käyttäjätunnus" autocomplete="off" required><br>
                 <input type="submit" name="button" class="button" value="HAE"><br>
-                <p id = "vinkkiboksi"><strong>Vinkki!</strong> Haethan vain yhtä genreä kerrallaan. <br>
-                Kokeile hakua esimerkiksi musiikkityyleittäin (esim. <i>post-punk</i>), soittimittain (esim. <i>brass</i>) tai maittain (esim. <i>japanese</i>).
+                <!--<p id = "vinkkiboksi"><strong>Vinkki!</strong> Haethan vain yhtä genreä kerrallaan. <br>
+                Kokeile hakua esimerkiksi musiikkityyleittäin (esim. <i>post-punk</i>), soittimittain (esim. <i>brass</i>) tai maittain (esim. <i>japanese</i>).-->
             </form><br>
     </div>
     <div id='lataus'>
@@ -152,7 +149,7 @@
             success: (payload) => {
                 console.log(payload)
                 // näytetään albumiwiki ja kappalelistaus (jos wikiä ei löydy, pelkkä kappalelistaus)
-                if (payload.album.wiki) {
+                if (payload && payload.album && payload.album.wiki) {
                     document.getElementById("infoSisalto").innerHTML = payload.album.wiki.summary;
                     document.getElementById("lisaInfo").innerHTML = "<h3>Kappaleet:</h3>"+payload.album.tracks.track
                     .map(({name})=>`<li>${name}</li>`).join("");
@@ -212,6 +209,7 @@
     });
 
 // sivunvaihto
+
     let sivu = 1;
 
     function next() {
@@ -242,13 +240,14 @@
         document.getElementById('sivunvaihto').style.display = "flex";
         document.getElementById('sivunro').innerHTML = sivu;
         event.preventDefault();
-        let lomake = document.getElementById("genrehaku");
+        let lomake = document.getElementById("kayttajahaku");
         let datalomake = new FormData(lomake);
         let nimi = datalomake.get("nimi");
-        let genre = datalomake.get("genrevalinta");
-        let artistiurl = `http://ws.audioscrobbler.com/2.0/?method=tag.gettopartists&tag=${nimi}&page=${sivu}&limit=24&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
-        let albumiurl = `http://ws.audioscrobbler.com/2.0/?method=tag.gettopalbums&tag=${nimi}&page=${sivu}&limit=24&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
-        if (genre === "artisti") {
+        let hakukohde = datalomake.get("hakukohde");
+        let periodi = datalomake.get('range');
+        let artistiurl = `http://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user=${nimi}&page=${sivu}&period=${periodi}&limit=24&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
+        let albumiurl = `http://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=${nimi}&page=${sivu}&period=${periodi}&limit=24&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
+        if (hakukohde === "artisti") {
             $.ajax({
                 async:true,
                 type: 'GET',
@@ -259,14 +258,14 @@
                     document.getElementById('lataus').innerHTML = "";
                 }
             });
-        } else if (genre === "albumi") {
+        } else if (hakukohde === "albumi") {
             $.ajax({
                 async:true,
                 type: 'GET',
                 url: albumiurl,
                 success: (payload) => {
                     console.log(payload)
-                    payload.albums.album.forEach((album)=> naytaAlbumi(album));
+                    payload.topalbums.album.forEach((album)=> naytaAlbumi(album));
                     document.getElementById('lataus').innerHTML = "";
                 }
             });

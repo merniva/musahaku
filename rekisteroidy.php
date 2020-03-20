@@ -16,7 +16,7 @@
 <div class='kehys'>
     <nav>
     <ul class="menu">
-            <li class="item"><a href="#">About</a></li>
+            <li class="item"><a href="about.php">About</a></li>
             <li class="item"><a href="index.php">Genret</a></li>
             <li class="item"><a href="artistihaku.php">Artistit</a></li>
             </li>
