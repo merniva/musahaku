@@ -49,10 +49,10 @@
         <button onclick="siirraYlos()" id="ylos" title="ylos"><i class="fas fa-chevron-up"></i></button>
     </div>
     <div class='container'>
-        <h2>Hae last.fm -käyttäjätunnuksella <i class="fas fa-search"></i></h2><br>
+        <h2>Hae last.fm -käyttäjän nimellä <i class="fas fa-search"></i></h2><br>
             <form action="kayttajahaku.php" method="get" class="haku" id="kayttajahaku">
                 <input type="radio" id="albumi" name="hakukohde" value="albumi" checked>
-                    <label for="albumi">Hae käyttäjän kuunnelluimmat albumit &nbsp;</label>
+                    <label for="albumi">Hae käyttäjän kuunnelluimmat albumit &nbsp;</label><br>
                 <input type="radio" id="artisti" name="hakukohde" value="artisti">
                     <label for="artisti">Hae käyttäjän kuunnelluimmat artistit</label><br><br>
                 <h4>Ajalta:</h4>
@@ -61,7 +61,7 @@
                 <input type="radio" id="overall" name="range" value="overall">
                     <label for="overall">Kaikki</label>
                 <br><br>
-                <input name="nimi" class="hakukentta" placeholder="Syötä käyttäjätunnus" autocomplete="off" required><br>
+                <input name="nimi" class="hakukentta" placeholder="Kirjoita käyttäjätunnus" autocomplete="off" required><br>
                 <input type="submit" name="button" class="button" value="HAE"><br>
                 <!--<p id = "vinkkiboksi"><strong>Vinkki!</strong> Haethan vain yhtä genreä kerrallaan. <br>
                 Kokeile hakua esimerkiksi musiikkityyleittäin (esim. <i>post-punk</i>), soittimittain (esim. <i>brass</i>) tai maittain (esim. <i>japanese</i>).-->
@@ -76,12 +76,13 @@
     </div>
     <div id="infoModal" class="modal">
         <div class="modalSisalto">
+            <p class="close" id="close">&times;
+            </p>
             <h4 id="infoOtsikko">Odota hetki...</h4><br>
             <p id="infoSisalto"></p><br>
+            <div id='kayttajaGenreTagit'></div><br>
             <h5 id="lisaOtsikko"></h5>
             <ul id="lisaInfo"></ul>
-            <p class="close">&times;
-            </p>
         </div>
     </div>
     <div class='footer'>
@@ -90,6 +91,7 @@
 </div>
 
 <script> 
+
 // infoikkunan avaus
    function naytaInfo(artistiNimi) {
         document.getElementById("infoSisalto").innerHTML = "Ladataan...";
@@ -124,6 +126,17 @@
                 .map(({name,url})=>`<li><a href="${url}">${name}</a></li>`).join("");
             }
         });
+        let artistigenreurl = `http://ws.audioscrobbler.com/2.0/?method=artist.gettoptags&artist=${artistiNimi}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
+        $.ajax({
+            async:true,
+            type: 'GET',
+            url: artistigenreurl,
+            success: (payload) => {
+                console.log(payload)
+                document.getElementById("kayttajaGenreTagit").innerHTML = "<h4>Genret: </h4>"+payload.toptags.tag
+                .map(({name,url})=>`<span><a href="${url}">${name}</a></span>`).filter((tagi,index)=> index<5).join(", ");
+            }
+        });
     }
 
 // albumi-info
@@ -152,13 +165,24 @@
                 // näytetään albumiwiki ja kappalelistaus (jos wikiä ei löydy, pelkkä kappalelistaus)
                 if (payload && payload.album && payload.album.wiki) {
                     document.getElementById("infoSisalto").innerHTML = payload.album.wiki.summary;
-                    document.getElementById("lisaInfo").innerHTML = "<h3>Kappaleet:</h3>"+payload.album.tracks.track
+                    document.getElementById("lisaInfo").innerHTML = "<h4>Kappaleet:</h4>"+payload.album.tracks.track
                     .map(({name})=>`<li>${name}</li>`).join("");
                 } else {
                     document.getElementById("infoSisalto").innerHTML = "";
-                    document.getElementById("lisaInfo").innerHTML = "<h3>Kappaleet:</h3>"+payload.album.tracks.track
+                    document.getElementById("lisaInfo").innerHTML = "<h4>Kappaleet:</h4>"+payload.album.tracks.track
                     .map(({name})=>`<li>${name}</li>`).join("");
                 }
+            }
+        });
+        let albumigenreurl = `http://ws.audioscrobbler.com/2.0/?method=album.gettoptags&artist=${artistiNimi}&album=${albumiNimi}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
+        $.ajax({
+            async:true,
+            type: 'GET',
+            url: albumigenreurl,
+            success: (payload) => {
+                console.log(payload)
+                document.getElementById("genreTagit").innerHTML = "<h4>Genret: </h4>"+payload.toptags.tag
+                .map(({name})=>`<span>${name}</span>`).filter((tagi,index)=> index<5).join(", ");
             }
         });
     }

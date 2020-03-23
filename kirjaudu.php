@@ -73,7 +73,7 @@
           url: $('#kirjaudu').attr('action'),
           data: lomakedata,
           success: function(response){
-            window.location.href = "index.php";
+            window.location.href = "kayttajahaku.php";
             },
           error: function(error){
             document.getElementById("virheviesti").innerHTML=`<p>${error.responseText}</p>`;

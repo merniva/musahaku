@@ -64,36 +64,31 @@
                     <label for="albumi">Hae albumeita &nbsp;</label>
                 <input type="radio" id="artisti" name="genrevalinta" value="artisti">
                     <label for="artisti">Hae artisteja</label><br><br>
-                <input name="nimi" class="hakukentta" placeholder="Anna genren nimi" autocomplete="off" required><br>
-                <input type="submit" name="button" class="button" value="HAE"><br>
+                <input name="nimi" class="hakukentta" id="hakukentta" placeholder="Anna genren nimi" autocomplete="off" required><br>
+                <input type="submit" name="button" class="button" id="hakubutton" value="HAE"><br>
                 <div id= "vinkkiboksi">
                     <strong>Vinkki!</strong> Haethan vain yhtä genreä kerrallaan. <br>
-                    <p>Kokeile hakua esimerkiksi musiikkityyleittäin (esim. <i>post-punk</i>), soittimittain (esim. <i>brass</i>) tai maittain (esim. <i>japanese</i>).</p>
+                    <p>Kokeile hakua esimerkiksi musiikkityyleittäin (esim. <i>post-punk</i>), soittimittain (esim. <i>violin</i>) tai maittain (esim. <i>japanese</i>).</p>
                 </div>
             </form><br>
     </div>
     <div id='lataus'>
     </div>
     <div id='tulokset'>
-    <div id='samankaltaiset'>
-        <h5>Samankaltaisia genrejä:</h5>
-        <span class="samankaltaiset">Genre 1</span>
-        <span class="samankaltaiset">Genre 2</span>
-        <span class="samankaltaiset">Genre 3</span>
-        <span class="samankaltaiset">Genre 4</span>
-    </div>
     </div>
     <div class='sivunvaihto' id="sivunvaihto">
         <span><button type="button" class="sivubutton" id="edellinen"><<</button><span id="sivunro"></span><button type="button" class="sivubutton" id="seuraava">>></button></span>
     </div>
     <div id="infoModal" class="modal">
         <div class="modalSisalto">
+            <p class="close" id="close">&times;
+            </p>
             <h4 id="infoOtsikko">Odota hetki...</h4><br>
             <p id="infoSisalto"></p><br>
+            <h4>Genret: </h4>
+            <div id='genreTagit'></div><br>
             <h5 id="lisaOtsikko"></h5>
             <ul id="lisaInfo"></ul>
-            <p class="close">&times;
-            </p>
         </div>
     </div>
     <div class='footer'>
@@ -102,6 +97,15 @@
 </div>
 
 <script> 
+// tee uusi haku infoboksista klikatun genren mukaan
+function uusiHaku(genre) {
+        document.getElementById("close").click();
+        document.getElementById("hakukentta").value = genre;
+        document.getElementById("hakubutton").click();
+        siirraYlos();
+    }
+    window.uusiHaku = uusiHaku;
+
 // infoikkunan avaus
    function naytaInfo(artistiNimi) {
         document.getElementById("infoSisalto").innerHTML = "Ladataan...";
@@ -134,6 +138,17 @@
                 document.getElementById("lisaOtsikko").innerHTML ="Samankaltaisia artisteja:";
                 document.getElementById("lisaInfo").innerHTML = payload.artist.similar.artist
                 .map(({name,url})=>`<li><a href="${url}">${name}</a></li>`).join("");
+            }
+        });
+        let artistigenreurl = `http://ws.audioscrobbler.com/2.0/?method=artist.gettoptags&artist=${artistiNimi}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
+        $.ajax({
+            async:true,
+            type: 'GET',
+            url: artistigenreurl,
+            success: (payload) => {
+                console.log(payload)
+                document.getElementById("genreTagit").innerHTML = payload.toptags.tag
+                .map(({name})=>`<span><a onclick='uusiHaku("${name}")'>${name}</a></span>`).filter((tagi,index)=> index<5).join(", ");
             }
         });
     }
@@ -171,6 +186,17 @@
                     document.getElementById("lisaInfo").innerHTML = "<h3>Kappaleet:</h3>"+payload.album.tracks.track
                     .map(({name})=>`<li>${name}</li>`).join("");
                 }
+            }
+        });
+        let albumigenreurl = `http://ws.audioscrobbler.com/2.0/?method=album.gettoptags&artist=${artistiNimi}&album=${albumiNimi}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
+        $.ajax({
+            async:true,
+            type: 'GET',
+            url: albumigenreurl,
+            success: (payload) => {
+                console.log(payload)
+                document.getElementById("genreTagit").innerHTML = payload.toptags.tag
+                .map(({name})=>`<span><a onclick='uusiHaku("${name}")'>${name}</a></span>`).filter((tagi,index)=> index<5).join(", ");
             }
         });
     }
@@ -298,7 +324,8 @@ function siirraYlos() {
                 }
             });
         } else {}
-    }
+
+    } 
 
 // hae-buttonin aktivointi
     $(".haku").submit(function(event){

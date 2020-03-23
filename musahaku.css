@@ -140,7 +140,7 @@ h3, h4 {
     font-family: 'Maven Pro', sans-serif;
   }
   .button:hover {
-      background-color: #ffe260;
+      background-color: #c0378f;
     }
 
   .kayttajabutton {
@@ -255,29 +255,31 @@ h3, h4 {
     font-weight: bolder;
 }
 
+
 .hakutulos {
   overflow-y: hidden;
 }
 
-.samankaltaiset {
+#samankaltaiset {
   border: 1px solid #000;
   text-align: center;
   list-style-type: none;
-  font-size: smaller;
-  font-weight: lighter;
+  font-weight: bolder;
   display: inline-block;
   align-items: center;
   justify-content: center;
   border-style: none;
 }
 
-.samankaltaiset a {
-  font-weight: bolder;
-  color: #000;
-  text-decoration: none;
+#samankaltaiset a {
+  font-family: 'Maven Pro', sans-serif;
+    color: #000;
+    font-weight: bolder;
+    cursor: pointer;
+
 }
 
-.samankaltaiset a:hover {
+#samankaltaiset a:hover {
   border-bottom: 4px #c0378f solid;
 }
 
@@ -320,15 +322,38 @@ h3, h4 {
   border-bottom: 4px #c0378f solid;
 }
 
+#genreTagit a {
+  font-family: 'Maven Pro', sans-serif;
+  color: #000;
+  font-weight: bolder;
+  cursor: pointer;
+}
+
+#genreTagit a:hover {
+border-bottom: 4px #c0378f solid;
+}
+
+#kayttajaGenreTagit a {
+  font-size: smaller;
+  font-weight: lighter;
+  font-family: 'Open Sans', sans-serif;
+  text-decoration: none;
+}
+
+#kayttajaGenreTagit a:hover {
+  border-bottom: 4px #c0378f solid;
+  }
+
 .close {
-  color: #c0378f;
+  color: #000;
   font-size: 28px;
   font-weight: bold;
+  text-align: right;
 }
 
 .close:hover,
 .close:focus {
-  color: black;
+  color: #c0378f;
   text-decoration: none;
   cursor: pointer;
 }

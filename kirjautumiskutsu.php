@@ -35,7 +35,7 @@ if ($stmt = $yhteys->prepare('SELECT id, salasana FROM kayttaja WHERE nimi = ?')
             $_SESSION['nimi'] = $_POST['nimi'];
             $_SESSION['id'] = $id;
             http_response_code(200);
-            echo "index.php";
+            echo "kayttajahaku.php";
            // header('Location: tietokantaharjoitus.php');
         } else {
             http_response_code(400);

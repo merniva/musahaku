@@ -51,8 +51,8 @@
     <div class='container'>
             <h2>Hae samankaltaisia artisteja <i class="fas fa-search"></i></h2><br>
             <form action="artistihaku.php" method="get" class="haku" id="artistihaku">
-                <input name="nimi" class="hakukentta" placeholder="Anna artistin nimi" autocomplete="off"><br>
-                <input type="submit" name="button" class="button" value="HAE">
+                <input name="nimi" class="hakukentta" id="hakukentta" placeholder="Anna artistin nimi" autocomplete="off"><br>
+                <input type="submit" name="button" class="button" id="hakubutton" value="HAE">
             </form><br>
     </div>
     <div id='lataus'>
@@ -64,12 +64,14 @@
     </div>
     <div id="infoModal" class="modal">
         <div class="modalSisalto">
+            <p class="close" id="close">&times;
+            </p>
             <h4 id="artistiOtsikko">Odota hetki...</h4><br>
             <p id="artistiInfo"></p><br>
-            <h5>Samankaltaisia artisteja:</h5>
-            <ul id="samankaltaiset"></ul>
-            <p class="close">&times;
-            </p>
+            <h4>Genret: </h4>
+            <div id='genreTagit'></div><br>
+            <h4>Samankaltaisia artisteja:</h4>
+            <div id="samankaltaiset"></div><br>
         </div>
     </div>
     <div class='footer'>
@@ -78,6 +80,15 @@
 </div>
 
 <script> 
+// tee uusi haku infoboksista klikatun genren mukaan
+function uusiHaku(genre) {
+        document.getElementById("close").click();
+        document.getElementById("hakukentta").value = genre;
+        document.getElementById("hakubutton").click();
+        siirraYlos();
+    }
+    window.uusiHaku = uusiHaku;
+
 // info-ikkunan avaus
     function naytaInfo(artistiNimi) {
         document.getElementById("artistiInfo").innerHTML = "Ladataan...";
@@ -86,14 +97,10 @@
         modal.style.display = "block";
         p.onclick = function() {
             modal.style.display = "none";
-            document.getElementById("lisaOtsikko").innerHTML ="";
-            document.getElementById("lisaInfo").innerHTML = "";
         }
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";
-                document.getElementById("lisaOtsikko").innerHTML ="";
-                document.getElementById("lisaInfo").innerHTML = "";
             }
         }
         document.getElementById("artistiOtsikko").innerHTML = artistiNimi;
@@ -105,10 +112,22 @@
                 console.log(payload)
                 document.getElementById("artistiInfo").innerHTML = payload.artist.bio.summary;
                 document.getElementById("samankaltaiset").innerHTML = payload.artist.similar.artist
-                    .map(({name,url})=>`<li><a href="${url}">${name}</a></li>`).join("");
+                    .map(({name,url})=>`<span><a onclick='uusiHaku("${name}")'>${name}</a></span>`).join(", ");
+            }
+        });
+        let artistigenreurl = `http://ws.audioscrobbler.com/2.0/?method=artist.gettoptags&artist=${artistiNimi}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
+        $.ajax({
+            async:true,
+            type: 'GET',
+            url: artistigenreurl,
+            success: (payload) => {
+                console.log(payload)
+                document.getElementById("genreTagit").innerHTML = payload.toptags.tag
+                .map(({name})=>`<span>${name}</span>`).filter((tagi,index)=> index<5).join(", ");
             }
         });
     }
+
 // hakutulosten järjestäminen
     function naytaSamanKaltaiset(artisti) {
             let laatikko = document.createElement("div");
