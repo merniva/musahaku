@@ -46,6 +46,7 @@
                     ?>
     </nav>
     <div class='header'>
+        <button onclick="siirraYlos()" id="ylos" title="ylos"><i class="fas fa-chevron-up"></i></button>
     </div>
     <div class='container'>
         <h2>Hae last.fm -käyttäjätunnuksella <i class="fas fa-search"></i></h2><br>
@@ -207,6 +208,25 @@
             }
         });
     });
+
+    
+// scrollaa takaisin ylös -nappi
+scrollaaYlos = document.getElementById("ylos");
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+    scrollaaYlos.style.display = "block";
+  } else {
+    scrollaaYlos.style.display = "none";
+  }
+}
+
+function siirraYlos() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
+
 
 // sivunvaihto
 

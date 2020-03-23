@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>OG Musahaku</title>
+    <title>Musasaurus</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Maven+Pro:900|Open+Sans&display=swap" rel="stylesheet">
@@ -46,7 +46,7 @@
         ?>
     </nav>
     <div class='header'>
-        <?php if (isset($_SESSION['success'])): ?>
+        <?php /* if (isset($_SESSION['success'])): ?>
             <div class="error tai success">
                 <h3><?php 
                     echo $_SESSION['success'];
@@ -54,7 +54,8 @@
                     ?>
                 </h3>
             </div>
-        <?php endif ?>
+        <?php endif */?>
+        <button onclick="siirraYlos()" id="ylos" title="ylos"><i class="fas fa-chevron-up"></i></button>
     </div>
     <div class='container'>
             <h2>Hae genren perusteella <i class="fas fa-search"></i></h2><br>
@@ -65,13 +66,22 @@
                     <label for="artisti">Hae artisteja</label><br><br>
                 <input name="nimi" class="hakukentta" placeholder="Anna genren nimi" autocomplete="off" required><br>
                 <input type="submit" name="button" class="button" value="HAE"><br>
-                <p id = "vinkkiboksi"><strong>Vinkki!</strong> Haethan vain yhtä genreä kerrallaan. <br>
-                Kokeile hakua esimerkiksi musiikkityyleittäin (esim. <i>post-punk</i>), soittimittain (esim. <i>brass</i>) tai maittain (esim. <i>japanese</i>).
+                <div id= "vinkkiboksi">
+                    <strong>Vinkki!</strong> Haethan vain yhtä genreä kerrallaan. <br>
+                    <p>Kokeile hakua esimerkiksi musiikkityyleittäin (esim. <i>post-punk</i>), soittimittain (esim. <i>brass</i>) tai maittain (esim. <i>japanese</i>).</p>
+                </div>
             </form><br>
     </div>
     <div id='lataus'>
     </div>
     <div id='tulokset'>
+    <div id='samankaltaiset'>
+        <h5>Samankaltaisia genrejä:</h5>
+        <span class="samankaltaiset">Genre 1</span>
+        <span class="samankaltaiset">Genre 2</span>
+        <span class="samankaltaiset">Genre 3</span>
+        <span class="samankaltaiset">Genre 4</span>
+    </div>
     </div>
     <div class='sivunvaihto' id="sivunvaihto">
         <span><button type="button" class="sivubutton" id="edellinen"><<</button><span id="sivunro"></span><button type="button" class="sivubutton" id="seuraava">>></button></span>
@@ -210,6 +220,23 @@
             }
         });
     });
+
+// scrollaa takaisin ylös -nappi
+scrollaaYlos = document.getElementById("ylos");
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+    scrollaaYlos.style.display = "block";
+  } else {
+    scrollaaYlos.style.display = "none";
+  }
+}
+
+function siirraYlos() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
 
 // sivunvaihto
     let sivu = 1;

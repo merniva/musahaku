@@ -183,11 +183,36 @@ h3, h4 {
   }
 
   .sivubutton:hover {
-      background-color: #ffe260;
+      background-color: #c0378f;
     }
   .kayttajainfo {
     font-size: smaller;
   }
+
+  #ylos {
+      background-color: #000;
+      color:#FFF;
+      padding: 5px 10px;
+      margin:0.5rem;
+      text-decoration: none;
+      font-weight:bold;
+      font-size:1rem;
+      border-radius: 10px;
+      border-style: none;
+      transition-duration: 0.2s;
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      z-index: 99;
+    }
+
+    #ylos:hover {
+      background-color: #c0378f;
+    }
 
   #vinkkiboksi {
     font-size: smaller;
@@ -232,6 +257,28 @@ h3, h4 {
 
 .hakutulos {
   overflow-y: hidden;
+}
+
+.samankaltaiset {
+  border: 1px solid #000;
+  text-align: center;
+  list-style-type: none;
+  font-size: smaller;
+  font-weight: lighter;
+  display: inline-block;
+  align-items: center;
+  justify-content: center;
+  border-style: none;
+}
+
+.samankaltaiset a {
+  font-weight: bolder;
+  color: #000;
+  text-decoration: none;
+}
+
+.samankaltaiset a:hover {
+  border-bottom: 4px #c0378f solid;
 }
 
 .modal {

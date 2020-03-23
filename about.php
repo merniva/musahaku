@@ -57,9 +57,9 @@
         <?php endif ?>
     </div>
     <div class='container'>
-    <img src="og.png" alt="logokuva" width="200" height="200"></img>
-            <h2 id="aboutheader">Oldies Goldies</h2>
-            <h3>eli musiikkihaku, josta et löydä tuoreimpia hittejä</h3><br>
+    <img src="dino.png" alt="logokuva" width="200" height="200"></img>
+            <h2 id="aboutheader">Otsikko</h2>
+            <h3>Tietoa</h3><br>
             <h4>[[[mikä?]]]</h4>
             <p>Blaablaablaabllaa<br>
             Blaablaablaabllaa<br>
