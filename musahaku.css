@@ -333,16 +333,13 @@ h3, h4 {
 border-bottom: 4px #c0378f solid;
 }
 
-#kayttajaGenreTagit a {
+#kayttajaGenreTagit {
   font-size: smaller;
   font-weight: lighter;
   font-family: 'Open Sans', sans-serif;
   text-decoration: none;
 }
 
-#kayttajaGenreTagit a:hover {
-  border-bottom: 4px #c0378f solid;
-  }
 
 .close {
   color: #000;

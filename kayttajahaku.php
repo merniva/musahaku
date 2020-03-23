@@ -80,7 +80,7 @@
             </p>
             <h4 id="infoOtsikko">Odota hetki...</h4><br>
             <p id="infoSisalto"></p><br>
-            <div id='kayttajaGenreTagit'></div><br>
+            <div id='kayttajaGenreTagit'></div>
             <h5 id="lisaOtsikko"></h5>
             <ul id="lisaInfo"></ul>
         </div>
@@ -123,7 +123,7 @@
                 document.getElementById("infoSisalto").innerHTML = payload.artist.bio.summary;
                 document.getElementById("lisaOtsikko").innerHTML ="Samankaltaisia artisteja:";
                 document.getElementById("lisaInfo").innerHTML = payload.artist.similar.artist
-                .map(({name,url})=>`<li><a href="${url}">${name}</a></li>`).join("");
+                .map(({name})=>`<span>${name}</span>`).join(", ");
             }
         });
         let artistigenreurl = `http://ws.audioscrobbler.com/2.0/?method=artist.gettoptags&artist=${artistiNimi}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
@@ -132,9 +132,10 @@
             type: 'GET',
             url: artistigenreurl,
             success: (payload) => {
+                // näytetään genretägit
                 console.log(payload)
                 document.getElementById("kayttajaGenreTagit").innerHTML = "<h4>Genret: </h4>"+payload.toptags.tag
-                .map(({name,url})=>`<span><a href="${url}">${name}</a></span>`).filter((tagi,index)=> index<5).join(", ");
+                .map(({name})=>`<li>${name}</li>`).filter((tagi,index)=> index<5).join("")+"<br>";
             }
         });
     }
@@ -172,17 +173,6 @@
                     document.getElementById("lisaInfo").innerHTML = "<h4>Kappaleet:</h4>"+payload.album.tracks.track
                     .map(({name})=>`<li>${name}</li>`).join("");
                 }
-            }
-        });
-        let albumigenreurl = `http://ws.audioscrobbler.com/2.0/?method=album.gettoptags&artist=${artistiNimi}&album=${albumiNimi}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
-        $.ajax({
-            async:true,
-            type: 'GET',
-            url: albumigenreurl,
-            success: (payload) => {
-                console.log(payload)
-                document.getElementById("genreTagit").innerHTML = "<h4>Genret: </h4>"+payload.toptags.tag
-                .map(({name})=>`<span>${name}</span>`).filter((tagi,index)=> index<5).join(", ");
             }
         });
     }
