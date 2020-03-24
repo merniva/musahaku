@@ -75,7 +75,7 @@
         </div>
     </div>
     <div class='footer'>
-        <p>Tämä on footer</p>
+        <p>All the music information provided by <strong><a href="https://www.last.fm/">last.fm.</a></strong></p>
     </div>
 </div>
 
@@ -104,10 +104,11 @@ function uusiHaku(genre) {
             }
         }
         document.getElementById("artistiOtsikko").innerHTML = artistiNimi;
+        let artistiHaku = encodeURIComponent(artistiNimi);
         $.ajax({
             async:true,
             type: 'GET',
-            url: `http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${artistiNimi}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`,
+            url: `http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${artistiHaku}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`,
             success: (payload) => {
                 console.log(payload)
                 document.getElementById("artistiInfo").innerHTML = payload.artist.bio.summary;
@@ -115,7 +116,7 @@ function uusiHaku(genre) {
                     .map(({name,url})=>`<span><a onclick='uusiHaku("${name}")'>${name}</a></span>`).join(", ");
             }
         });
-        let artistigenreurl = `http://ws.audioscrobbler.com/2.0/?method=artist.gettoptags&artist=${artistiNimi}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
+        let artistigenreurl = `http://ws.audioscrobbler.com/2.0/?method=artist.gettoptags&artist=${artistiHaku}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
         $.ajax({
             async:true,
             type: 'GET',

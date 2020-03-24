@@ -49,23 +49,27 @@
         <button onclick="siirraYlos()" id="ylos" title="ylos"><i class="fas fa-chevron-up"></i></button>
     </div>
     <div class='container'>
-        <h2>Hae last.fm -käyttäjän nimellä <i class="fas fa-search"></i></h2><br>
-            <form action="kayttajahaku.php" method="get" class="haku" id="kayttajahaku">
-                <input type="radio" id="albumi" name="hakukohde" value="albumi" checked>
-                    <label for="albumi">Hae käyttäjän kuunnelluimmat albumit &nbsp;</label><br>
-                <input type="radio" id="artisti" name="hakukohde" value="artisti">
-                    <label for="artisti">Hae käyttäjän kuunnelluimmat artistit</label><br><br>
+    <?php
+        if (!isset($_SESSION['nimi'])) {
+            echo "<h4>Ole hyvä ja kirjaudu ensin sisään!</h4>"; 
+        } else {
+            echo "<h2>Hae last.fm -käyttäjän nimellä <i class=\"fas fa-search\"></i></h2><br>
+            <form action=\"kayttajahaku.php\" method=\"get\" class=\"haku\" id=\"kayttajahaku\">
+                <input type=\"radio\" id=\"albumi\" name=\"hakukohde\" value=\"albumi\" checked>
+                    <label for=\"albumi\">Hae käyttäjän kuunnelluimmat albumit &nbsp;</label><br>
+                <input type=\"radio\" id=\"artisti\" name=\"hakukohde\" value=\"artisti\">
+                    <label for=\"artisti\">Hae käyttäjän kuunnelluimmat artistit</label><br><br>
                 <h4>Ajalta:</h4>
-                <input type="radio" id="vuosi" name="range" value="12month" checked>
-                    <label for="vuosi">Viimeiset 12 kk &nbsp;</label>
-                <input type="radio" id="overall" name="range" value="overall">
-                    <label for="overall">Kaikki</label>
+                <input type=\"radio\" id=\"vuosi\" name=\"range\" value=\"12month\" checked>
+                    <label for=\"vuosi\">Viimeiset 12 kk &nbsp;</label>
+                <input type=\"radio\" id=\"overall\" name=\"range\" value=\"overall\">
+                    <label for=\"overall\">Kaikki</label>
                 <br><br>
-                <input name="nimi" class="hakukentta" placeholder="Kirjoita käyttäjätunnus" autocomplete="off" required><br>
-                <input type="submit" name="button" class="button" value="HAE"><br>
-                <!--<p id = "vinkkiboksi"><strong>Vinkki!</strong> Haethan vain yhtä genreä kerrallaan. <br>
-                Kokeile hakua esimerkiksi musiikkityyleittäin (esim. <i>post-punk</i>), soittimittain (esim. <i>brass</i>) tai maittain (esim. <i>japanese</i>).-->
-            </form><br>
+                <input name=\"nimi\" class=\"hakukentta\" placeholder=\"Kirjoita käyttäjätunnus\" autocomplete=\"off\" required><br>
+                <input type=\"submit\" name=\"button\" class=\"button\" value=\"HAE\"><br>
+            </form><br>";
+        }
+    ?>
     </div>
     <div id='lataus'>
     </div>
@@ -86,7 +90,7 @@
         </div>
     </div>
     <div class='footer'>
-        <p>Tämä on footer</p>
+        <p>All the music information provided by <strong><a href="https://www.last.fm/">last.fm.</a></strong></p>
     </div>
 </div>
 
@@ -113,10 +117,11 @@
         }
         document.getElementById("infoOtsikko").innerHTML = artistiNimi;
         // haetaan lisäinfo
+        let artistiHaku = encodeURIComponent(artistiNimi);
         $.ajax({
             async:true,
             type: 'GET',
-            url: `http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${artistiNimi}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`,
+            url: `http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${artistiHaku}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`,
             success: (payload) => {
                 console.log(payload)
                 // näytetään artistibio ja samankaltaiset artistit
@@ -126,7 +131,7 @@
                 .map(({name})=>`<span>${name}</span>`).join(", ");
             }
         });
-        let artistigenreurl = `http://ws.audioscrobbler.com/2.0/?method=artist.gettoptags&artist=${artistiNimi}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
+        let artistigenreurl = `http://ws.audioscrobbler.com/2.0/?method=artist.gettoptags&artist=${artistiHaku}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
         $.ajax({
             async:true,
             type: 'GET',
@@ -156,11 +161,13 @@
             }
         }
         document.getElementById("infoOtsikko").innerHTML = `${artistiNimi}: ${albumiNimi}`;
+        let artistiHaku = encodeURIComponent(artistiNimi);
+        let albumiHaku = encodeURIComponent(albumiNimi);
         // haetaan lisäinfo
         $.ajax({
             async:true,
             type: 'GET',
-            url: `http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=b7ba2a47c41146f14422726a121f27b7&artist=${artistiNimi}&album=${albumiNimi}&format=json`,
+            url: `http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=b7ba2a47c41146f14422726a121f27b7&artist=${artistiHaku}&album=${albumiHaku}&format=json`,
             success: (payload) => {
                 console.log(payload)
                 // näytetään albumiwiki ja kappalelistaus (jos wikiä ei löydy, pelkkä kappalelistaus)
@@ -314,6 +321,3 @@ function siirraYlos() {
 </script>
 </body>
 </html>
-<?php
-
-?>

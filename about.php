@@ -58,24 +58,26 @@
     </div>
     <div class='container'>
     <img src="dino.png" alt="logokuva" width="200" height="200"></img>
-            <h2 id="aboutheader">Otsikko</h2>
-            <h3>Tietoa</h3><br>
-            <h4>[[[mikä?]]]</h4>
-            <p>Blaablaablaabllaa<br>
-            Blaablaablaabllaa<br>
-            Blaablaablaabllaa<br>
-            Blaablaablaabllaa<br><br></p>
-            <h4>[[[miksi?]]]</h4>
-            <p>Blaablaablaabllaa<br>
-            Blaablaablaabllaa<br>
-            Blaablaablaabllaa<br><br></p>
-            <h4>[[[credits]]]</h4>
-            <p>Blaablaablaabllaa<br>
-            Blaablaablaabllaa<br>
-            Blaablaablaabllaa<br><br></p>
+            <h2 id="aboutheader">Tietoa sivusta</h2>
+            <div id="aboutboksi">
+                <h3>[[[mikä tämä on?]]]</h3><br>
+                <p>Sivusto on kouluprojektina tehty pieni musiikin tesaurus,
+                jonka kautta voit etsiä kuunneltavaa musiikkigenren perusteella tai hakea artisteja samankaltaisuuteen perustuen.<br>
+                Lisäksi kirjautuneena käyttäjänä voit tutkia muiden kuunnelluimpia artisteja ja albumeita last.fm -käyttäjänimen perusteella.<br><br>
+                </p>
+                <h3>[[[miksi?]]]</h3><br>
+                <p>Sivusto syntyi <a href="https://www.last.fm/user/lumepuna">tekijänsä</a> tarpeesta löytää itselleen mielenkiintoista kuunneltavaa listahittien ja radiosoittolistojen ulkopuolelta.<br>
+                Tällä sivustolla keskeisessä asemassa ovat yksittäisten kappaleiden tai listojen sijaan albumikokonaisuudet.<br>
+                <br></p>
+                <h3>[[[miten?]]]</h3><br>
+                <p>Tietojen haussa hyödynnetään <strong><a href="https://last.fm/">last.fm</a></strong> -palvelun avointa rajapintaa.<br>
+                Sivun ulkoasussa käytetyt ikonit: <strong><a href="https://fontawesome.com/">Fontawesome.</a></strong><br>
+                Taustakuva: <strong><a href="https://pixabay.com/fi/users/davidrockdesign-2595351/">DavidRockDesign.</a></strong>
+                <br><br></p>
+            </div>
     </div>
     <div class='footer'>
-        <p>Tämä on footer</p>
+        <p>All the music information provided by <strong><a href="https://www.last.fm/">last.fm.</a></strong></p>
     </div>
 </div>
 <script>

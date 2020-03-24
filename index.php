@@ -92,7 +92,7 @@
         </div>
     </div>
     <div class='footer'>
-        <p>Tämä on footer</p>
+        <p>All the music information provided by <strong><a href="https://www.last.fm/">last.fm.</a></strong></p>
     </div>
 </div>
 
@@ -127,10 +127,11 @@ function uusiHaku(genre) {
         }
         document.getElementById("infoOtsikko").innerHTML = artistiNimi;
         // haetaan lisäinfo
+        let artistiHaku = encodeURIComponent(artistiNimi);
         $.ajax({
             async:true,
             type: 'GET',
-            url: `http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${artistiNimi}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`,
+            url: `http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${artistiHaku}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`,
             success: (payload) => {
                 console.log(payload)
                 // näytetään artistibio ja samankaltaiset artistit
@@ -140,7 +141,7 @@ function uusiHaku(genre) {
                 .map(({name,url})=>`<li><a href="${url}">${name}</a></li>`).join("");
             }
         });
-        let artistigenreurl = `http://ws.audioscrobbler.com/2.0/?method=artist.gettoptags&artist=${artistiNimi}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
+        let artistigenreurl = `http://ws.audioscrobbler.com/2.0/?method=artist.gettoptags&artist=${artistiHaku}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
         $.ajax({
             async:true,
             type: 'GET',
@@ -170,10 +171,12 @@ function uusiHaku(genre) {
         }
         document.getElementById("infoOtsikko").innerHTML = `${artistiNimi}: ${albumiNimi}`;
         // haetaan lisäinfo
+        let artistiHaku = encodeURIComponent(artistiNimi);
+        let albumiHaku = encodeURIComponent(albumiNimi);
         $.ajax({
             async:true,
             type: 'GET',
-            url: `http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=b7ba2a47c41146f14422726a121f27b7&artist=${artistiNimi}&album=${albumiNimi}&format=json`,
+            url: `http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=b7ba2a47c41146f14422726a121f27b7&artist=${artistiHaku}&album=${albumiHaku}&format=json`,
             success: (payload) => {
                 console.log(payload)
                 // näytetään albumiwiki ja kappalelistaus (jos wikiä ei löydy, pelkkä kappalelistaus)
@@ -188,7 +191,7 @@ function uusiHaku(genre) {
                 }
             }
         });
-        let albumigenreurl = `http://ws.audioscrobbler.com/2.0/?method=album.gettoptags&artist=${artistiNimi}&album=${albumiNimi}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
+        let albumigenreurl = `http://ws.audioscrobbler.com/2.0/?method=album.gettoptags&artist=${artistiHaku}&album=${albumiHaku}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
         $.ajax({
             async:true,
             type: 'GET',
