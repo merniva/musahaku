@@ -22,7 +22,6 @@
             </li>
         <?php 
         if (isset($_SESSION['nimi'])) {
-            //echo "<p>Tervetuloa etsimään musiikkia, ". $_SESSION['nimi']."!<br><br>";
             echo "<li class=\"item\"><a href=\"kayttajahaku.php\">Hae käyttäjänimellä</a>
                     </li>
                     <li class=\"item\">
@@ -46,15 +45,6 @@
         ?>
     </nav>
     <div class='header'>
-        <?php /* if (isset($_SESSION['success'])): ?>
-            <div class="error tai success">
-                <h3><?php 
-                    echo $_SESSION['success'];
-                    unset($_SESSION['success']);
-                    ?>
-                </h3>
-            </div>
-        <?php endif */?>
         <button onclick="siirraYlos()" id="ylos" title="ylos"><i class="fas fa-chevron-up"></i></button>
     </div>
     <div class='container'>
@@ -293,6 +283,7 @@ function siirraYlos() {
 
 // haetaan tulokset
     function teeHaku(event) {
+        document.getElementById('hakubutton').disabled = true;
         document.getElementById('tulokset').innerHTML = "";
         document.getElementById('lataus').innerHTML = "Ladataan...";
         document.getElementById('sivunvaihto').style.display = "flex";
@@ -304,6 +295,9 @@ function siirraYlos() {
         let genre = datalomake.get("genrevalinta");
         let artistiurl = `http://ws.audioscrobbler.com/2.0/?method=tag.gettopartists&tag=${nimi}&page=${sivu}&limit=24&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
         let albumiurl = `http://ws.audioscrobbler.com/2.0/?method=tag.gettopalbums&tag=${nimi}&page=${sivu}&limit=24&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
+        setTimeout(() => {
+        document.getElementById('hakubutton').disabled = false;
+        },  1000);
         if (genre === "artisti") {
             $.ajax({
                 async:true,

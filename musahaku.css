@@ -75,6 +75,7 @@ h3, h4 {
     padding: 1rem;
     display: flex;
     justify-content: center;
+    text-align: center;
   }
   
   .footer p {
@@ -141,6 +142,10 @@ h3, h4 {
   }
   .button:hover {
       background-color: #c0378f;
+    }
+
+  .button:disabled {
+    background-color: rgb(41, 41, 41);
     }
 
   .kayttajabutton {
@@ -270,26 +275,23 @@ h3, h4 {
 }
 
 #samankaltaiset {
-  border: 1px solid #000;
   text-align: center;
   list-style-type: none;
-  font-weight: bolder;
   display: inline-block;
   align-items: center;
   justify-content: center;
-  border-style: none;
 }
 
 #samankaltaiset a {
-  font-family: 'Maven Pro', sans-serif;
     color: #000;
     font-weight: bolder;
     cursor: pointer;
-
+    text-decoration: underline;
 }
 
 #samankaltaiset a:hover {
   border-bottom: 4px #c0378f solid;
+  text-decoration: none;
 }
 
 .modal {
@@ -332,23 +334,31 @@ h3, h4 {
 }
 
 #genreTagit a {
-  font-family: 'Maven Pro', sans-serif;
   color: #000;
   font-weight: bolder;
   cursor: pointer;
+  text-decoration: underline;
 }
 
 #genreTagit a:hover {
-border-bottom: 4px #c0378f solid;
+  border-bottom: 4px #c0378f solid;
+  text-decoration: none;
 }
 
-#kayttajaGenreTagit {
+#kayttajaGenreTagit, #artistiGenreTagit, #lisaInfo {
   font-size: smaller;
   font-weight: lighter;
   font-family: 'Open Sans', sans-serif;
   text-decoration: none;
 }
 
+#kayttajaGenreTagit a, #artistiGenreTagit a {
+  text-decoration: none;
+}
+
+#kayttajaGenreTagit a:hover, #artistiGenreTagit a:hover{
+  border-bottom: 4px #c0378f solid;
+  }
 
 .close {
   color: #000;

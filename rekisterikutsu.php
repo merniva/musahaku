@@ -1,9 +1,9 @@
 <?php
 
-$dbpalvelin = "localhost"; //"127.0.0.1:50713"; "localhost"
-$dbkayttaja =  "Admin"; // "azure"; "Admin"
-$dbsalasana = "admin1"; //"6#vWHD_$"; "admin1"
-$db = "musahaku";  // "sakila";
+$dbpalvelin = getenv("PALVELIN");
+$dbkayttaja =  getenv("KAYTTAJA");
+$dbsalasana = getenv("SALASANA");
+$db = "musahaku";
 $yhteys = mysqli_connect($dbpalvelin, $dbkayttaja, $dbsalasana, $db);
 if (mysqli_connect_errno()) {
     http_response_code(500);

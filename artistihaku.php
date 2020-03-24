@@ -22,7 +22,6 @@
             </li>
         <?php 
         if (isset($_SESSION['nimi'])) {
-            //echo "<p>Tervetuloa etsimään musiikkia, ". $_SESSION['nimi']."!<br><br>";
             echo "<li class=\"item\"><a href=\"kayttajahaku.php\">Hae käyttäjänimellä</a>
                     </li>
                     <li class=\"item\">
@@ -66,10 +65,10 @@
         <div class="modalSisalto">
             <p class="close" id="close">&times;
             </p>
-            <h4 id="artistiOtsikko">Odota hetki...</h4><br>
+            <h4 id="artistiOtsikko">Odota hetki...</h4>
             <p id="artistiInfo"></p><br>
             <h4>Genret: </h4>
-            <div id='genreTagit'></div><br>
+            <div id='artistiGenreTagit'></div><br>
             <h4>Samankaltaisia artisteja:</h4>
             <div id="samankaltaiset"></div><br>
         </div>
@@ -80,10 +79,13 @@
 </div>
 
 <script> 
-// tee uusi haku infoboksista klikatun genren mukaan
-function uusiHaku(genre) {
+// tee uusi haku infoboksista klikatun artistin mukaan
+function uusiHaku(artisti) {
+    let siivottuArtisti = artisti
+        .replace(" & ", "&")
+        .replace(" + ", "+");
         document.getElementById("close").click();
-        document.getElementById("hakukentta").value = genre;
+        document.getElementById("hakukentta").value = siivottuArtisti;
         document.getElementById("hakubutton").click();
         siirraYlos();
     }
@@ -123,8 +125,8 @@ function uusiHaku(genre) {
             url: artistigenreurl,
             success: (payload) => {
                 console.log(payload)
-                document.getElementById("genreTagit").innerHTML = payload.toptags.tag
-                .map(({name})=>`<span>${name}</span>`).filter((tagi,index)=> index<5).join(", ");
+                document.getElementById("artistiGenreTagit").innerHTML = payload.toptags.tag
+                .map(({name,url})=>`<span><a href="${url}">${name}</a></span>`).filter((tagi,index)=> index<5).join(", ");
             }
         });
     }
@@ -175,35 +177,11 @@ function siirraYlos() {
   document.documentElement.scrollTop = 0;
 }
 
-// sivunvaihto
-/*let sivu = 1;
-
-function next() {
-    sivu++;
-}
-
-function back() {
-    sivu--;
-}
-
-$("#edellinen").click(function(event){
-    if (sivu > 1){
-    back();
-    teeHaku(event);
-    }
-})
-
-$("#seuraava").click(function(event){
-    next();
-    teeHaku(event);
-})
-*/
 // haetaan tulokset
     function teeHaku(event) {
+        document.getElementById('hakubutton').disabled = true;
         document.getElementById('tulokset').innerHTML = "";
         document.getElementById('lataus').innerHTML = "Ladataan...";
-       // document.getElementById('sivunvaihto').style.display = "flex";
-      //  document.getElementById('sivunro').innerHTML = sivu;
         event.preventDefault();
         let lomake = document.getElementById("artistihaku");
         let datalomake = new FormData(lomake);
@@ -211,6 +189,9 @@ $("#seuraava").click(function(event){
         let artistihaku = `http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=${nimi}&limit=30&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
         console.log(artistihaku);
         document.getElementById("tulokset").innerHTML = "";
+        setTimeout(() => {
+        document.getElementById('hakubutton').disabled = false;
+        },  1000);
             $.ajax({
                 async:true,
                 type: 'GET',
@@ -226,12 +207,8 @@ $("#seuraava").click(function(event){
 
 // hae-buttonin aktivointi
     $(".haku").submit(function(event) {
-       // sivu = 1;
         teeHaku(event);
     });
 </script>
 </body>
 </html>
-<?php
-
-?>

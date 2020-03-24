@@ -22,7 +22,6 @@
             </li>
         <?php 
         if (isset($_SESSION['nimi'])) {
-            //echo "<p>Tervetuloa etsimään musiikkia, ". $_SESSION['nimi']."!<br><br>";
             echo "<li class=\"item\"><a href=\"kayttajahaku.php\">Hae käyttäjänimellä</a>
                     </li>
                     <li class=\"item\">
@@ -66,7 +65,7 @@
                     <label for=\"overall\">Kaikki</label>
                 <br><br>
                 <input name=\"nimi\" class=\"hakukentta\" placeholder=\"Kirjoita käyttäjätunnus\" autocomplete=\"off\" required><br>
-                <input type=\"submit\" name=\"button\" class=\"button\" value=\"HAE\"><br>
+                <input type=\"submit\" name=\"button\" class=\"button\" id=\"hakubutton\" value=\"HAE\"><br>
             </form><br>";
         }
     ?>
@@ -82,9 +81,9 @@
         <div class="modalSisalto">
             <p class="close" id="close">&times;
             </p>
-            <h4 id="infoOtsikko">Odota hetki...</h4><br>
+            <h4 id="infoOtsikko">Odota hetki...</h4>
             <p id="infoSisalto"></p><br>
-            <div id='kayttajaGenreTagit'></div>
+            <div id='kayttajaGenreTagit'></div><br>
             <h5 id="lisaOtsikko"></h5>
             <ul id="lisaInfo"></ul>
         </div>
@@ -126,9 +125,9 @@
                 console.log(payload)
                 // näytetään artistibio ja samankaltaiset artistit
                 document.getElementById("infoSisalto").innerHTML = payload.artist.bio.summary;
-                document.getElementById("lisaOtsikko").innerHTML ="Samankaltaisia artisteja:";
+                document.getElementById("lisaOtsikko").innerHTML ="<h4>Samankaltaisia artisteja: </h4>";
                 document.getElementById("lisaInfo").innerHTML = payload.artist.similar.artist
-                .map(({name})=>`<span>${name}</span>`).join(", ");
+                .map(({name, url})=>`<span><a href="${url}">${name}</a></span>`).join(", ");
             }
         });
         let artistigenreurl = `http://ws.audioscrobbler.com/2.0/?method=artist.gettoptags&artist=${artistiHaku}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
@@ -140,7 +139,7 @@
                 // näytetään genretägit
                 console.log(payload)
                 document.getElementById("kayttajaGenreTagit").innerHTML = "<h4>Genret: </h4>"+payload.toptags.tag
-                .map(({name})=>`<li>${name}</li>`).filter((tagi,index)=> index<5).join("")+"<br>";
+                .map(({name,url})=>`<span><a href="${url}">${name}</a></span>`).filter((tagi,index)=> index<5).join(", ");
             }
         });
     }
@@ -276,6 +275,7 @@ function siirraYlos() {
 
 // haetaan tulokset
     function teeHaku(event) {
+        document.getElementById('hakubutton').disabled = true;
         document.getElementById('tulokset').innerHTML = "";
         document.getElementById('lataus').innerHTML = "Ladataan...";
         document.getElementById('sivunvaihto').style.display = "flex";
@@ -288,6 +288,9 @@ function siirraYlos() {
         let periodi = datalomake.get('range');
         let artistiurl = `http://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user=${nimi}&page=${sivu}&period=${periodi}&limit=24&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
         let albumiurl = `http://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=${nimi}&page=${sivu}&period=${periodi}&limit=24&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
+        setTimeout(() => {
+        document.getElementById('hakubutton').disabled = false;
+        },  1000);
         if (hakukohde === "artisti") {
             $.ajax({
                 async:true,
