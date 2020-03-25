@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
     <link rel="stylesheet" type="text/css" href="musahaku.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="./funktiot.js"></script>
 </head>
 <body>
 <div class='kehys'>
@@ -53,16 +54,8 @@
 </div>
 
 <script> 
+
 // tee uusi haku infoboksista klikatun artistin mukaan
-function uusiHaku(artisti) {
-    let siivottuArtisti = artisti
-        .replace(" & ", "&")
-        .replace(" + ", "+");
-        document.getElementById("close").click();
-        document.getElementById("hakukentta").value = siivottuArtisti;
-        document.getElementById("hakubutton").click();
-        siirraYlos();
-    }
     window.uusiHaku = uusiHaku;
 
 // info-ikkunan avaus
@@ -105,21 +98,6 @@ function uusiHaku(artisti) {
         });
     }
 
-// hakutulosten järjestäminen
-    function naytaSamanKaltaiset(artisti) {
-            let laatikko = document.createElement("div");
-            laatikko.innerHTML = `
-                <div class='tuloslaatikko'>
-                <a>
-                    <img src="black-1296338_640.png" alt="artistin default-kuva" width="150" height="150"></img>
-                    <h3>${artisti.name}</h3>
-                </a>
-                <button id="katsoLisaa">Katso lisää</button>
-                </div>
-                `;
-            laatikko.onclick=()=>naytaInfo(artisti.name)
-            document.getElementById('tulokset').appendChild(laatikko)
-        }
 
 // linkkivalikko
     $(function() {
@@ -135,21 +113,9 @@ function uusiHaku(artisti) {
     });
 
 // scrollaa takaisin ylös -nappi
-scrollaaYlos = document.getElementById("ylos");
-window.onscroll = function() {scrollFunction()};
+let scrollaaYlos = document.getElementById("ylos");
+window.onscroll = function() {scrollFunction(scrollaaYlos)};
 
-function scrollFunction() {
-  if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-    scrollaaYlos.style.display = "block";
-  } else {
-    scrollaaYlos.style.display = "none";
-  }
-}
-
-function siirraYlos() {
-  document.body.scrollTop = 0;
-  document.documentElement.scrollTop = 0;
-}
 
 // haetaan tulokset
     function teeHaku(event) {
@@ -172,7 +138,7 @@ function siirraYlos() {
                 url: artistihaku,
                 success: (payload) => {
                     console.log(payload)
-                    payload.similarartists.artist.forEach((artist)=> naytaSamanKaltaiset(artist));
+                    payload.similarartists.artist.forEach((artist)=> naytaArtisti(artist));
                     document.getElementById('lataus').innerHTML = "";
                 }
             });

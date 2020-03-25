@@ -33,7 +33,7 @@
                 <input type="submit" name="button" class="button" id="hakubutton" value="HAE"><br>
                 <div id= "vinkkiboksi">
                     <strong>Vinkki!</strong> Haethan vain yhtä genreä kerrallaan. <br>
-                    <p>Kokeile hakua esimerkiksi musiikkityyleittäin (esim. <i>post-punk</i>),<br> soittimittain (esim. <i>violin</i>)<br> tai maittain (esim. <i>japanese</i>).</p>
+                    <p>Kokeile hakua esimerkiksi musiikkityyleittäin (esim. <i>post-punk</i>),<br> soittimittain (esim. <i>violin</i>) tai maittain (esim. <i>japanese</i>).</p>
                 </div>
             </form><br>
     </div>
@@ -62,15 +62,8 @@
 </div>
 
 <script>
+
 // tee uusi haku infoboksista klikatun genren mukaan
-// tämän voi siirtää, varmista että elementit samat joka sivulla
-// jos ei, anna nimet argumenttina
-function uusiHaku(genre) {
-        document.getElementById("close").click();
-        document.getElementById("hakukentta").value = genre;
-        document.getElementById("hakubutton").click();
-        siirraYlos();
-    }
     window.uusiHaku = uusiHaku;
 
 // infoikkunan avaus
@@ -171,41 +164,6 @@ function uusiHaku(genre) {
         });
     }
 
-// artistihakutulosten järjestäminen
-// voi siirtää
-    function naytaArtisti(artisti) {
-        let laatikko = document.createElement("div");
-        laatikko.innerHTML = `
-            <div class='tuloslaatikko'>
-            <a>
-                <img src="black-1296338_640.png" alt="artistin default-kuva" width="150" height="150"></img>
-                <h3>${artisti.name}</h3>
-            </a>
-            <button id="katsoLisaa">Katso lisää</button>
-            </div>
-            `;
-        laatikko.onclick=()=>naytaInfo(artisti.name)
-        document.getElementById('tulokset').appendChild(laatikko)
-    }
-
-// albumihakutulosten järjestäminen
-// voi siirtää
-    function naytaAlbumi(albumi) {
-        let laatikko = document.createElement("div");
-        laatikko.innerHTML = `
-            <div class='tuloslaatikko'>
-            <a>
-                <img src="${albumi.image[2]["#text"]}" width="160" height="160"></img>
-                <h3>${albumi.artist.name}:<br></h3>
-                <p class = "hakutulos">${albumi.name}</p>
-            </a>
-            <button id="katsoLisaa">Katso lisää</button>
-            </div>
-            `;
-        laatikko.onclick=()=>albumiInfo(albumi.name, albumi.artist.name)
-        document.getElementById('tulokset').appendChild(laatikko)
-    }
-
 // linkkivalikko
 // älä koske vielä
     $(function() {
@@ -220,24 +178,10 @@ function uusiHaku(genre) {
         });
     });
 
-// scrollaa takaisin ylös -nappi, mieluiten muuta letiksi
-scrollaaYlos = document.getElementById("ylos");
-window.onscroll = function() {scrollFunction()};
+// scrollaa takaisin ylös -nappi
+let scrollaaYlos = document.getElementById("ylos");
+window.onscroll = function() {scrollFunction(scrollaaYlos)};
 
-// voi siirtää, tarvitsee scrollaaYloksen parametrina
-function scrollFunction() {
-  if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-    scrollaaYlos.style.display = "block";
-  } else {
-    scrollaaYlos.style.display = "none";
-  }
-}
-
-// voi siirtää
-function siirraYlos() {
-  document.body.scrollTop = 0;
-  document.documentElement.scrollTop = 0;
-}
 
 // sivunvaihto
 let sivu = 1;
@@ -245,7 +189,7 @@ let sivu = 1;
 $("#edellinen").click(function(event){
     if (sivu > 1){
         sivu--;
-        teeHaku(event);
+    teeHaku(event);
     }
 })
 
@@ -253,6 +197,7 @@ $("#seuraava").click(function(event){
     sivu++;
     teeHaku(event);
 })
+
 
 // haetaan tulokset
     function teeHaku(event) {

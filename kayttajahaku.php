@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
     <link rel="stylesheet" type="text/css" href="musahaku.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="./funktiot.js"></script>
 </head>
 <body>
 <div class='kehys'>
@@ -157,38 +158,6 @@
         });
     }
 
-// artistihakutulosten järjestäminen
-    function naytaArtisti(artisti) {
-        let laatikko = document.createElement("div");
-        laatikko.innerHTML = `
-            <div class='tuloslaatikko'>
-            <a>
-                <img src="black-1296338_640.png" alt="artistin default-kuva" width="150" height="150"></img>
-                <h3>${artisti.name}</h3>
-            </a>
-            <button id="katsoLisaa">Katso lisää</button>
-            </div>
-            `;
-        laatikko.onclick=()=>naytaInfo(artisti.name)
-        document.getElementById('tulokset').appendChild(laatikko)
-    }
-
-// albumihakutulosten järjestäminen
-    function naytaAlbumi(albumi) {
-        let laatikko = document.createElement("div");
-        laatikko.innerHTML = `
-            <div class='tuloslaatikko'>
-            <a>
-                <img src="${albumi.image[2]["#text"]}" width="160" height="160"></img>
-                <h3>${albumi.artist.name}:<br></h3>
-                <p class = "hakutulos">${albumi.name}</p>
-            </a>
-            <button id="katsoLisaa">Katso lisää</button>
-            </div>
-            `;
-        laatikko.onclick=()=>albumiInfo(albumi.name, albumi.artist.name)
-        document.getElementById('tulokset').appendChild(laatikko)
-    }
 
 // linkkivalikko
     $(function() {
@@ -204,22 +173,9 @@
     });
 
     
-// scrollaa takaisin ylös -nappi
-scrollaaYlos = document.getElementById("ylos");
-window.onscroll = function() {scrollFunction()};
-
-function scrollFunction() {
-  if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-    scrollaaYlos.style.display = "block";
-  } else {
-    scrollaaYlos.style.display = "none";
-  }
-}
-
-function siirraYlos() {
-  document.body.scrollTop = 0;
-  document.documentElement.scrollTop = 0;
-}
+// scrollaa takaisin ylös -nappi, mieluiten muuta letiksi
+let scrollaaYlos = document.getElementById("ylos");
+window.onscroll = function() {scrollFunction(scrollaaYlos)};
 
 
 // sivunvaihto
