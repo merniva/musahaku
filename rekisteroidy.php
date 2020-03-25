@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Musahaku</title>
+    <title>Musiikkisaurus</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css?family=Maven+Pro:900|Open+Sans&display=swap" rel="stylesheet">
@@ -14,23 +14,10 @@
 </head>
 <body>
 <div class='kehys'>
-    <nav>
-    <ul class="menu">
-            <li class="item"><a href="about.php">About</a></li>
-            <li class="item"><a href="index.php">Genret</a></li>
-            <li class="item"><a href="artistihaku.php">Artistit</a></li>
-            </li>
-            <li class="item">
-                <i class="fas fa-sign-in-alt"></i>
-                <a href="kirjaudu.php">Kirjaudu</a>
-            </li>
-            <li class="item">
-                <i class="fas fa-user"></i>
-                <a href="rekisteroidy.php">Rekisteröidy</a>
-            </li>
-            <li class="toggle"><a href="#"><i class="fas fa-bars"></i></a></li>
-        </ul>
-    </nav>
+    <?php
+        include 'linkkivalikko.php';
+        naytaLinkkivalikko();
+    ?>
     <div class='header'>
     </div>
     <div class='container'>

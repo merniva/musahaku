@@ -11,39 +11,14 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
     <link rel="stylesheet" type="text/css" href="musahaku.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="./funktiot.js"></script>
 </head>
 <body>
 <div class='kehys'>
-    <nav>
-    <ul class="menu">
-            <li class="item"><a href="about.php">About</a></li>
-            <li class="item"><a href="index.php">Genret</a></li>
-            <li class="item"><a href="artistihaku.php">Artistit</a></li>
-            </li>
-        <?php 
-        if (isset($_SESSION['nimi'])) {
-            echo "<li class=\"item\"><a href=\"kayttajahaku.php\">Hae käyttäjänimellä</a>
-                    </li>
-                    <li class=\"item\">
-                    <i class=\"fas fa-sign-out-alt\" style=\"color:rgb(201, 0, 0);\"></i>
-                    <a href=\"logout.php\" style=\"color:rgb(201, 0, 0);\">Kirjaudu ulos</a></p>
-                    </li>
-                    <li class=\"toggle\"><a href=\"#\"><i class=\"fas fa-bars\"></i></a></li>
-                    </ul>";
-                    } else {
-                        echo "<li class=\"item\">
-                            <i class=\"fas fa-sign-in-alt\"></i>
-                            <a href=\"kirjaudu.php\">Kirjaudu</a>
-                        </li>
-                        <li class=\"item\">
-                            <i class=\"fas fa-user\"></i>
-                            <a href=\"rekisteroidy.php\">Rekisteröidy</a>
-                        </li>
-                        <li class=\"toggle\"><a href=\"#\"><i class=\"fas fa-bars\"></i></a></li>
-                    </ul>";
-                    }    
-        ?>
-    </nav>
+    <?php
+        include 'linkkivalikko.php';
+        naytaLinkkivalikko();
+    ?>
     <div class='header'>
         <button onclick="siirraYlos()" id="ylos" title="ylos"><i class="fas fa-chevron-up"></i></button>
     </div>
@@ -58,7 +33,7 @@
                 <input type="submit" name="button" class="button" id="hakubutton" value="HAE"><br>
                 <div id= "vinkkiboksi">
                     <strong>Vinkki!</strong> Haethan vain yhtä genreä kerrallaan. <br>
-                    <p>Kokeile hakua esimerkiksi musiikkityyleittäin (esim. <i>post-punk</i>), soittimittain (esim. <i>violin</i>) tai maittain (esim. <i>japanese</i>).</p>
+                    <p>Kokeile hakua esimerkiksi musiikkityyleittäin (esim. <i>post-punk</i>),<br> soittimittain (esim. <i>violin</i>)<br> tai maittain (esim. <i>japanese</i>).</p>
                 </div>
             </form><br>
     </div>
@@ -86,8 +61,10 @@
     </div>
 </div>
 
-<script> 
+<script>
 // tee uusi haku infoboksista klikatun genren mukaan
+// tämän voi siirtää, varmista että elementit samat joka sivulla
+// jos ei, anna nimet argumenttina
 function uusiHaku(genre) {
         document.getElementById("close").click();
         document.getElementById("hakukentta").value = genre;
@@ -128,7 +105,7 @@ function uusiHaku(genre) {
                 document.getElementById("infoSisalto").innerHTML = payload.artist.bio.summary;
                 document.getElementById("lisaOtsikko").innerHTML ="Samankaltaisia artisteja:";
                 document.getElementById("lisaInfo").innerHTML = payload.artist.similar.artist
-                .map(({name,url})=>`<li><a href="${url}">${name}</a></li>`).join("");
+                    .map(({name,url})=>`<li><a href="${url}">${name}</a></li>`).join("");
             }
         });
         let artistigenreurl = `http://ws.audioscrobbler.com/2.0/?method=artist.gettoptags&artist=${artistiHaku}&api_key=b7ba2a47c41146f14422726a121f27b7&format=json`;
@@ -195,6 +172,7 @@ function uusiHaku(genre) {
     }
 
 // artistihakutulosten järjestäminen
+// voi siirtää
     function naytaArtisti(artisti) {
         let laatikko = document.createElement("div");
         laatikko.innerHTML = `
@@ -211,6 +189,7 @@ function uusiHaku(genre) {
     }
 
 // albumihakutulosten järjestäminen
+// voi siirtää
     function naytaAlbumi(albumi) {
         let laatikko = document.createElement("div");
         laatikko.innerHTML = `
@@ -228,6 +207,7 @@ function uusiHaku(genre) {
     }
 
 // linkkivalikko
+// älä koske vielä
     $(function() {
         $(".toggle").on("click", function() {
             if ($(".item").hasClass("active")) {
@@ -240,10 +220,11 @@ function uusiHaku(genre) {
         });
     });
 
-// scrollaa takaisin ylös -nappi
+// scrollaa takaisin ylös -nappi, mieluiten muuta letiksi
 scrollaaYlos = document.getElementById("ylos");
 window.onscroll = function() {scrollFunction()};
 
+// voi siirtää, tarvitsee scrollaaYloksen parametrina
 function scrollFunction() {
   if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
     scrollaaYlos.style.display = "block";
@@ -252,34 +233,26 @@ function scrollFunction() {
   }
 }
 
+// voi siirtää
 function siirraYlos() {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
 }
 
 // sivunvaihto
-    let sivu = 1;
+let sivu = 1;
 
-    function next() {
-        sivu++;
-    }
-
-    function back() {
+$("#edellinen").click(function(event){
+    if (sivu > 1){
         sivu--;
+        teeHaku(event);
     }
+})
 
-    $("#edellinen").click(function(event){
-        if (sivu > 1){
-        back();
-        teeHaku(event);
-        }
-    })
-
-    $("#seuraava").click(function(event){
-        next();
-        teeHaku(event);
-    })
-
+$("#seuraava").click(function(event){
+    sivu++;
+    teeHaku(event);
+})
 
 // haetaan tulokset
     function teeHaku(event) {
@@ -332,6 +305,3 @@ function siirraYlos() {
 </script>
 </body>
 </html>
-<?php
-
-?>
