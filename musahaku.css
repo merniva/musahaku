@@ -269,9 +269,15 @@ h3, h4 {
     font-weight: bolder;
 }
 
+.tuloslaatikko h3 {
+  max-height: 45px;
+  overflow: hidden;
+}
 
 .hakutulos {
-  overflow-y: hidden;
+  min-height: 25px;
+  max-height: 43px;
+  overflow: hidden;
 }
 
 #samankaltaiset {

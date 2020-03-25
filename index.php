@@ -73,8 +73,8 @@
         <div class="modalSisalto">
             <p class="close" id="close">&times;
             </p>
-            <h4 id="infoOtsikko">Odota hetki...</h4><br>
-            <p id="infoSisalto"></p><br>
+            <div class="infoOtsikko" id="infoOtsikko">Odota hetki...</div><br>
+            <div id="infoSisalto"></div><br>
             <h4>Genret: </h4>
             <div id='genreTagit'></div><br>
             <h5 id="lisaOtsikko"></h5>
