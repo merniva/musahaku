@@ -28,40 +28,47 @@
         <form action="rekisterikutsu.php" method="post" id="rekisteroidy" class="kayttajalomake" autocomplete="off">
             <span>
                 <label for="username">
-                    <i class="fas fa-user"></i>
+                    <i class="fas fa-user">*</i>
                 </label>
                 <input type="text" name="nimi" id="nimi" class="kayttajakentta" placeholder="Anna käyttäjänimi"  maxlength="25" required><br>
             </span>
             <span>
                 <label for="email">
-                    <i class="fas fa-envelope"></i>
+                    <i class="fas fa-envelope">*</i>
                 </label>
                 <input type="email" name="email" id="email" class="kayttajakentta" placeholder="Sähköpostiosoite" maxlength="50" required><br>
             </span>
             <span>
                 <label for="password">
-                    <i class="fas fa-lock"></i>
+                    <i class="fas fa-lock">*</i>
                 </label>
                 <input name="salasana" id="salasana" class="kayttajakentta" placeholder="Salasana" type="password" required><br>
             </span>
             <span>
                 <label for="password2">
-                    <i class="fas fa-lock"></i>
+                    <i class="fas fa-lock">*</i>
                 </label>
             <input name="salasana2" id="salasana2" class="kayttajakentta" placeholder="Salasana uudestaan" type="password" required><br><br>
             </span>
             <input type="submit" value="Rekisteröidy" id="kayttajabutton" class="kayttajabutton"><br><br>
-        <p>Onko sinulla jo tunnukset? <br><strong><a href="kirjaudu.php">Kirjaudu sisään tästä.</a></strong></p>
+            <p>* = Pakollinen tieto.</p>
+            <p>Huom! Salasanan on oltava vähintään kuusi merkkiä pitkä!</p><br>
+        <p>Onko sinulla jo tunnukset?</p>
+        <p><strong><a href="kirjaudu.php">Kirjaudu sisään tästä.</a></strong></p><br>
         </form>
         </div>
     </div>
-
+    <div class='footer'>
+        <?php
+            include 'footer.php';
+        ?>
+    </div>
 </div>
 
 <script> 
-    function piilotaVirhe(id){
-                document.getElementById("virheviesti").innerHTML="";
-                document.getElementById(id).removeEventListener("click");
+    function piilotaVirhe(id, virhe){
+                virhe.style.display = "none";
+                document.getElementById(id).removeEventListener("click", virhe);
             }
     $("#rekisteroidy").submit(function(event) {
         event.preventDefault();
@@ -76,14 +83,14 @@
             window.location.href = "kirjaudu.php";
             },
           error: function(error){
-            alert("Tietojen lähetys ei onnistunut!")
-            console.log(error);
-            document.getElementById("virheviesti").innerHTML=`<p>${error.responseText}</p>`;
+            var virhe = document.getElementById("virheviesti");
+            virhe.innerHTML=`<p><strong>${error.responseText}</strong></p>`;
+            virhe.style.display = "block";
             document.getElementById("nimi").value="";
             document.getElementById("email").value="";
             document.getElementById("salasana").value="";
             document.getElementById("salasana2").value="";
-            document.getElementById("nimi").addEventListener("click", () => piilotaVirhe("nimi"))
+            document.getElementById("nimi").addEventListener("click", () => piilotaVirhe("nimi", virhe))
           }
       })
     })

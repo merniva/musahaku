@@ -126,6 +126,14 @@ h3, h4 {
     flex-grow: 1;
   }
 
+  #virheviesti {
+    display:none;
+    background-color: #FFF;
+    color: rgb(201, 0, 0);
+    padding: 3px;
+    border: 2px dashed rgb(201, 0, 0);
+}
+
   .button {
     background-color: #000;
     color:#FFF;

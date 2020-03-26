@@ -64,7 +64,9 @@
         </div>
     </div>
     <div class='footer'>
-        <p>All the music information provided by <strong><a href="https://www.last.fm/">last.fm.</a></strong></p>
+        <?php
+            include 'footer.php';
+        ?>
     </div>
 </div>
 
@@ -173,7 +175,7 @@
     });
 
     
-// scrollaa takaisin ylös -nappi, mieluiten muuta letiksi
+// scrollaa takaisin ylös -nappi
 let scrollaaYlos = document.getElementById("ylos");
 window.onscroll = function() {scrollFunction(scrollaaYlos)};
 

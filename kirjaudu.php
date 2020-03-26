@@ -39,17 +39,23 @@
             <input name="salasana" id="salasana" class="kayttajakentta" type="password" placeholder="Anna salasana" autocomplete="off" required><br><br>
         </span>
         <input type="submit" value="Kirjaudu"class="kayttajabutton"><br><br>
-        <p>Eikö sinulla ole vielä tunnuksia? <br><strong><a href="rekisteroidy.php">Luo tunnukset tästä.</a></strong></p>
+        <p>Eikö sinulla ole vielä tunnuksia? </p>
+        <p><strong><a href="rekisteroidy.php">Luo tunnukset tästä.</a></strong></p><br>
         </form>
         </div>
+    </div>
+    <div class='footer'>
+        <?php
+            include 'footer.php';
+        ?>
     </div>
 </div>
 
 
 <script> 
-    function piilotaVirhe(id){
-                document.getElementById("virheviesti").innerHTML="";
-                document.getElementById(id).removeEventListener("click");
+    function piilotaVirhe(id, virhe){
+                virhe.style.display = "none";
+                document.getElementById(id).removeEventListener("click", virhe);
             }
     $("#kirjaudu").submit(function(event) {
         event.preventDefault();
@@ -63,10 +69,12 @@
             window.location.href = "kayttajahaku.php";
             },
           error: function(error){
-            document.getElementById("virheviesti").innerHTML=`<p>${error.responseText}</p>`;
+            var virhe = document.getElementById("virheviesti");
+            virhe.innerHTML=`<p><strong>${error.responseText}</strong></p>`;
+            virhe.style.display = "block";
             document.getElementById("nimi").value="";
             document.getElementById("salasana").value="";
-            document.getElementById("nimi").addEventListener("click", () => piilotaVirhe("nimi"))
+            document.getElementById("nimi").addEventListener("click", () => piilotaVirhe("nimi", virhe))
           }
       })
     })
