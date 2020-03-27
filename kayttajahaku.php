@@ -188,12 +188,14 @@ $("#edellinen").click(function(event){
     if (sivu > 1){
         sivu--;
         teeHaku(event);
+        siirraYlos();
     }
 })
 
 $("#seuraava").click(function(event){
     sivu++;
     teeHaku(event);
+    siirraYlos();
 })
 
 
@@ -222,8 +224,12 @@ $("#seuraava").click(function(event){
                 url: artistiurl,
                 success: (payload) => {
                     console.log(payload)
+                    if (payload.error) {
+                        document.getElementById('lataus').innerHTML = "Yhtään tulosta ei löytynyt!";
+                    } else {
                     payload.topartists.artist.forEach((artist)=> naytaArtisti(artist));
                     document.getElementById('lataus').innerHTML = "";
+                    }
                 }
             });
         } else if (hakukohde === "albumi") {
@@ -233,8 +239,12 @@ $("#seuraava").click(function(event){
                 url: albumiurl,
                 success: (payload) => {
                     console.log(payload)
+                    if (payload.error) {
+                        document.getElementById('lataus').innerHTML = "Yhtään tulosta ei löytynyt!";
+                    } else {
                     payload.topalbums.album.forEach((album)=> naytaAlbumi(album));
                     document.getElementById('lataus').innerHTML = "";
+                    }
                 }
             });
         } else {}

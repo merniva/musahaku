@@ -42,8 +42,12 @@ nav ul a {
     text-decoration: none;
     font-weight: bolder;
 }
-nav ul a:hover, a:active {
+nav ul a:hover {
     border-bottom: 4px #c0378f solid;
+}
+
+nav ul a:active {
+  border-bottom: 4px #c0378f solid;
 }
 
 .menu li {
@@ -344,7 +348,7 @@ h3, h4 {
   color: #000;
   text-decoration: none;
 }
-.modalSisalto ul a:hover {
+.modalSisalto ul a:hover, a:active {
   border-bottom: 4px #c0378f solid;
 }
 

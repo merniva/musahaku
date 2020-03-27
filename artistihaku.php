@@ -141,8 +141,12 @@ window.onscroll = function() {scrollFunction(scrollaaYlos)};
                 url: artistihaku,
                 success: (payload) => {
                     console.log(payload)
+                    if (payload.error) {
+                        document.getElementById('lataus').innerHTML = "Yhtään tulosta ei löytynyt!";
+                    } else {
                     payload.similarartists.artist.forEach((artist)=> naytaArtisti(artist));
                     document.getElementById('lataus').innerHTML = "";
+                    }
                 }
             });
     }
