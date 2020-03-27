@@ -11,7 +11,7 @@ function uusiHaku(haettava) {
 }
 
 // artistihakutulosten järjestäminen
-function naytaArtisti(artisti) {
+function naytaArtisti(artisti, naytaTiedot) {
     let laatikko = document.createElement("div");
     laatikko.innerHTML = `
         <div class='tuloslaatikko'>
@@ -22,13 +22,13 @@ function naytaArtisti(artisti) {
         <button id="katsoLisaa">Katso lisää</button>
         </div>
         `;
-    laatikko.onclick=()=>naytaInfo(artisti.name)
+    laatikko.onclick=()=> naytaTiedot(artisti.name)
     document.getElementById('tulokset').appendChild(laatikko)
 }
 
 
 // albumihakutulosten järjestäminen
-function naytaAlbumi(albumi) {
+function naytaAlbumi(albumi, naytaTiedot) {
     let laatikko = document.createElement("div");
     laatikko.innerHTML = `
         <div class='tuloslaatikko'>
@@ -40,16 +40,16 @@ function naytaAlbumi(albumi) {
         <button id="katsoLisaa">Katso lisää</button>
         </div>
         `;
-    laatikko.onclick=()=>albumiInfo(albumi.name, albumi.artist.name)
+    laatikko.onclick=()=> naytaTiedot(albumi.name, albumi.artist.name)
     document.getElementById('tulokset').appendChild(laatikko)
 }
 
 // takaisin ylös -napin näyttäminen
 function scrollFunction(takaisinYlos) {
     if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-      scrollaaYlos.style.display = "block";
+      takaisinYlos.style.display = "block";
     } else {
-      scrollaaYlos.style.display = "none";
+      takaisinYlos.style.display = "none";
     }
   }
   

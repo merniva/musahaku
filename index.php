@@ -231,7 +231,7 @@ $("#seuraava").click(function(event){
                     if (payload.topartists.artist.length === 0) {
                         document.getElementById('lataus').innerHTML = "Yhtään tulosta ei löytynyt!";
                     } else {
-                    payload.topartists.artist.forEach((artist)=> naytaArtisti(artist));
+                    payload.topartists.artist.forEach((artist)=> naytaArtisti(artist, naytaInfo));
                     document.getElementById('lataus').innerHTML = ""; 
                     }
                 }
@@ -246,7 +246,7 @@ $("#seuraava").click(function(event){
                     if (payload.albums.album.length === 0) {
                         document.getElementById('lataus').innerHTML = "Yhtään tulosta ei löytynyt!";
                     } else {
-                    payload.albums.album.forEach((album)=> naytaAlbumi(album));
+                    payload.albums.album.forEach((album)=> naytaAlbumi(album, albumiInfo));
                     document.getElementById('lataus').innerHTML = ""; 
                     }
                 }

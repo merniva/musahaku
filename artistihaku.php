@@ -144,7 +144,7 @@ window.onscroll = function() {scrollFunction(scrollaaYlos)};
                     if (payload.error) {
                         document.getElementById('lataus').innerHTML = "Yhtään tulosta ei löytynyt!";
                     } else {
-                    payload.similarartists.artist.forEach((artist)=> naytaArtisti(artist));
+                    payload.similarartists.artist.forEach((artist)=> naytaArtisti(artist, naytaInfo));
                     document.getElementById('lataus').innerHTML = "";
                     }
                 }

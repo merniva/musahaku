@@ -224,10 +224,10 @@ $("#seuraava").click(function(event){
                 url: artistiurl,
                 success: (payload) => {
                     console.log(payload)
-                    if (payload.error) {
+                    if (payload.topartists.artist.length === 0) {
                         document.getElementById('lataus').innerHTML = "Yhtään tulosta ei löytynyt!";
                     } else {
-                    payload.topartists.artist.forEach((artist)=> naytaArtisti(artist));
+                    payload.topartists.artist.forEach((artist)=> naytaArtisti(artist, naytaInfo));
                     document.getElementById('lataus').innerHTML = "";
                     }
                 }
@@ -239,10 +239,10 @@ $("#seuraava").click(function(event){
                 url: albumiurl,
                 success: (payload) => {
                     console.log(payload)
-                    if (payload.error) {
+                    if (payload.topalbums.album.length === 0) {
                         document.getElementById('lataus').innerHTML = "Yhtään tulosta ei löytynyt!";
                     } else {
-                    payload.topalbums.album.forEach((album)=> naytaAlbumi(album));
+                    payload.topalbums.album.forEach((album)=> naytaAlbumi(album, albumiInfo));
                     document.getElementById('lataus').innerHTML = "";
                     }
                 }
