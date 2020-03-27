@@ -131,7 +131,8 @@ h3, h4 {
     background-color: #FFF;
     color: rgb(201, 0, 0);
     padding: 3px;
-    border: 2px dashed rgb(201, 0, 0);
+    border: 1px dashed rgb(201, 0, 0);
+    opacity: 0.8;
 }
 
   .button {

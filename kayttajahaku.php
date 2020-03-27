@@ -115,8 +115,9 @@
             success: (payload) => {
                 // näytetään genretägit
                 console.log(payload)
-                document.getElementById("kayttajaGenreTagit").innerHTML = "<h4>Genret: </h4>"+payload.toptags.tag
-                .map(({name,url})=>`<span><a href="${url}">${name}</a></span>`).filter((tagi,index)=> index<5).join(", ");
+                let hakutulos = payload.toptags.tag.map(({name, url})=>`<span><a href="${url}">${name}</a></span>`);
+                let ekatViisi = hakutulos.filter((tagi,index)=> index<5).join(", ");
+                document.getElementById("kayttajaGenreTagit").innerHTML = "<h4>Genret: </h4>"+ekatViisi;
             }
         });
     }

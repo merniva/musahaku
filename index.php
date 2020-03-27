@@ -33,7 +33,7 @@
                 <input type="submit" name="button" class="button" id="hakubutton" value="HAE"><br>
                 <div id= "vinkkiboksi">
                     <strong>Vinkki!</strong> Haethan vain yhtä genreä kerrallaan. <br>
-                    <p>Kokeile hakua esimerkiksi musiikkityyleittäin (esim. <i>post-punk</i>),<br> soittimittain (esim. <i>violin</i>) tai maittain (esim. <i>japanese</i>).</p>
+                    <p>Kokeile hakua esimerkiksi musiikkityyleittäin (esim. <i>post-punk</i>),<br> soittimittain (esim. <i>violin</i>) tai vuoden perusteella (esim. <i>1990</i>).</p>
                 </div>
             </form><br>
     </div>
@@ -110,8 +110,9 @@
             url: artistigenreurl,
             success: (payload) => {
                 console.log(payload)
-                document.getElementById("genreTagit").innerHTML = payload.toptags.tag
-                .map(({name})=>`<span><a onclick='uusiHaku("${name}")'>${name}</a></span>`).filter((tagi,index)=> index<5).join(", ");
+                let hakutulos = payload.toptags.tag.map(({name})=>`<span><a onclick='uusiHaku("${name}")'>${name}</a></span>`);
+                let ekatViisi = hakutulos.filter((tagi,index)=> index<5).join(", ");
+                document.getElementById("genreTagit").innerHTML = ekatViisi;
             }
         });
     }
@@ -160,14 +161,14 @@
             url: albumigenreurl,
             success: (payload) => {
                 console.log(payload)
-                document.getElementById("genreTagit").innerHTML = payload.toptags.tag
-                .map(({name})=>`<span><a onclick='uusiHaku("${name}")'>${name}</a></span>`).filter((tagi,index)=> index<5).join(", ");
+                let hakutulos = payload.toptags.tag.map(({name})=>`<span><a onclick='uusiHaku("${name}")'>${name}</a></span>`);
+                let ekatViisi = hakutulos.filter((tagi,index)=> index<5).join(", ");
+                document.getElementById("genreTagit").innerHTML = ekatViisi;
             }
         });
     }
 
 // linkkivalikko
-// älä koske vielä
     $(function() {
         $(".toggle").on("click", function() {
             if ($(".item").hasClass("active")) {
