@@ -7,10 +7,12 @@
 body {
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
-    background-image: url("background-3147808_1920.jpg");
-    background-color: rgb(238, 238, 238);
+    background-image: url("mesh-1430108.png");
     background-repeat: no-repeat;
+    background-color: rgb(238, 238, 238);
     background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
   }
   
 a {
@@ -28,10 +30,11 @@ li {
 
 nav {
     color: #000;
-    background-color:#ffe260;
+    background-color: #dbabd5;
     padding: 0.5rem 1rem;
     display: flex;
     justify-content: stretch;
+    opacity:0.9;
 }
 nav ul {
     list-style-type: none;
@@ -43,11 +46,11 @@ nav ul a {
     font-weight: bolder;
 }
 nav ul a:hover {
-    border-bottom: 4px #c0378f solid;
+    border-bottom: 4px #7b255a solid;
 }
 
 nav ul a:active {
-  border-bottom: 4px #c0378f solid;
+  border-bottom: 4px #7b255a solid;
 }
 
 .menu li {
@@ -83,15 +86,15 @@ h3, h4 {
   }
   
   .footer p {
-    background-color:#c0378f;
+    background-color:#dbabd5;
     padding: 0.5rem 2rem;
+    opacity: 0.9;
   }
 
   .container {
     display: flex;
     align-items: center;
     justify-content: center;
-    /*min-height: 50%;*/
     flex-wrap: wrap;
     flex-direction: column;
     flex-grow: 1;
@@ -152,7 +155,7 @@ h3, h4 {
     font-family: 'Maven Pro', sans-serif;
   }
   .button:hover {
-      background-color: #c0378f;
+      background-color: #7b255a;
     }
 
   .button:disabled {
@@ -175,7 +178,7 @@ h3, h4 {
 }
 
   .kayttajabutton:hover {
-    background-color: #ffe260;
+    background-color: #dbabd5;
   }
 
   .sivunvaihto {
@@ -199,7 +202,7 @@ h3, h4 {
   }
 
   .sivubutton:hover {
-      background-color: #c0378f;
+      background-color: #7b255a;
     }
   .kayttajainfo {
     font-size: smaller;
@@ -227,7 +230,7 @@ h3, h4 {
     }
 
     #ylos:hover {
-      background-color: #c0378f;
+      background-color: #7b255a;
     }
 
   #vinkkiboksi {
@@ -307,7 +310,7 @@ h3, h4 {
 }
 
 #samankaltaiset a:hover {
-  border-bottom: 4px #c0378f solid;
+  border-bottom: 4px #7b255a solid;
   text-decoration: none;
 }
 
@@ -321,6 +324,7 @@ h3, h4 {
   height: 100%;
   overflow-y: scroll;
   background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
 }
 
 .modalSisalto {
@@ -346,7 +350,7 @@ h3, h4 {
   text-decoration: none;
 }
 .modalSisalto ul a:hover, a:active {
-  border-bottom: 4px #c0378f solid;
+  border-bottom: 4px #7b255a solid;
 }
 
 #genreTagit a {
@@ -357,7 +361,7 @@ h3, h4 {
 }
 
 #genreTagit a:hover {
-  border-bottom: 4px #c0378f solid;
+  border-bottom: 4px #7b255a solid;
   text-decoration: none;
 }
 
@@ -373,7 +377,7 @@ h3, h4 {
 }
 
 #kayttajaGenreTagit a:hover, #artistiGenreTagit a:hover{
-  border-bottom: 4px #c0378f solid;
+  border-bottom: 4px #7b255a solid;
   }
 
 .close {
@@ -385,7 +389,7 @@ h3, h4 {
 
 .close:hover,
 .close:focus {
-  color: #c0378f;
+  color: #7b255a;
   text-decoration: none;
   cursor: pointer;
 }
@@ -407,7 +411,7 @@ h3, h4 {
 }
 
 #katsoLisaa:hover {
-  background-color: #ffe260;
+  background-color: #7b255a;
 }
 
 .kayttajakentta {
@@ -420,6 +424,7 @@ h3, h4 {
 }
 
   @media all and (max-width: 600px) {   
+
     .menu {
         display: flex;
         flex-wrap: wrap;
