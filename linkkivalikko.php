@@ -10,8 +10,8 @@ function naytaLinkkivalikko(){
             echo "<li class=\"item\"><a href=\"kayttajahaku.php\">Hae käyttäjänimellä</a>
                     </li>
                     <li class=\"item\">
-                    <i class=\"fas fa-sign-out-alt\" style=\"color:rgb(201, 0, 0);\"></i>
-                    <a href=\"logout.php\" style=\"color:rgb(201, 0, 0);\">Kirjaudu ulos</a></p>
+                    <i class=\"fas fa-sign-out-alt\"></i>
+                    <a href=\"logout.php\">Kirjaudu ulos</a></p>
                     </li>
                     <li class=\"toggle\"><a href=\"#\"><i class=\"fas fa-bars\"></i></a></li>
                     </ul>";
