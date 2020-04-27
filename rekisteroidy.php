@@ -18,8 +18,6 @@
         include 'linkkivalikko.php';
         naytaLinkkivalikko();
     ?>
-    <div class='header'>
-    </div>
     <div class='container'>
         <div class="kayttajalomake" >
         <div id="virheviesti"></div>
@@ -58,11 +56,11 @@
         </form>
         </div>
     </div>
-    <div class='footer'>
+    <footer>
         <?php
             include 'footer.php';
         ?>
-    </div>
+    </footer>
 </div>
 
 <script> 

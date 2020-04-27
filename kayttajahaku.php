@@ -19,10 +19,8 @@
         include 'linkkivalikko.php';
         naytaLinkkivalikko();
     ?>
-    <div class='header'>
-        <button onclick="siirraYlos()" id="ylos" title="ylos"><i class="fas fa-chevron-up"></i></button>
-    </div>
     <div class='container'>
+    <button onclick="siirraYlos()" id="ylos" title="ylos"><i class="fas fa-chevron-up"></i></button>
     <?php
         if (!isset($_SESSION['nimi'])) {
             echo "<h4>Ole hyvä ja kirjaudu ensin sisään!</h4>"; 
@@ -63,11 +61,11 @@
             <ul id="lisaInfo"></ul>
         </div>
     </div>
-    <div class='footer'>
+    <footer>
         <?php
             include 'footer.php';
         ?>
-    </div>
+    </footer>
 </div>
 
 <script> 

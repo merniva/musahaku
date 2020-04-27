@@ -14,41 +14,39 @@
 </head>
 <body>
 <div class='kehys'>
-<?php
-        include 'linkkivalikko.php';
-        naytaLinkkivalikko();
+    <?php
+            include 'linkkivalikko.php';
+            naytaLinkkivalikko();
     ?>
-    <div class='header'>
-    </div>
     <div class='container'>
-    <div class="kayttajalomake" >
-        <div id="virheviesti"></div>
-        <h2>Kirjaudu</h2><br>
-        <p class="kayttajainfo"></p>
-        <form action="kirjautumiskutsu.php" method="post" id="kirjaudu" class="kayttajalomake">
-        <span>
-            <label for="nimi">
-                <i class="fas fa-user"></i>
-            </label>
-            <input name="nimi" id="nimi" class="kayttajakentta" type="text" placeholder="Anna käyttäjänimi" autocomplete="off" maxlength="25" required>
-        </span>
-        <span>
-            <label for="salasana">
-                <i class="fas fa-lock"></i>
-            </label>
-            <input name="salasana" id="salasana" class="kayttajakentta" type="password" placeholder="Anna salasana" autocomplete="off" required><br><br>
-        </span>
-        <input type="submit" value="Kirjaudu"class="kayttajabutton"><br><br>
-        <p>Eikö sinulla ole vielä tunnuksia? </p>
-        <p><strong><a href="rekisteroidy.php">Luo tunnukset tästä.</a></strong></p><br>
-        </form>
+        <div class="kayttajalomake" >
+            <div id="virheviesti"></div>
+            <h2>Kirjaudu</h2><br>
+            <p class="kayttajainfo"></p>
+            <form action="kirjautumiskutsu.php" method="post" id="kirjaudu" class="kayttajalomake">
+            <span>
+                <label for="nimi">
+                    <i class="fas fa-user"></i>
+                </label>
+                <input name="nimi" id="nimi" class="kayttajakentta" type="text" placeholder="Anna käyttäjänimi" autocomplete="off" maxlength="25" required>
+            </span>
+            <span>
+                <label for="salasana">
+                    <i class="fas fa-lock"></i>
+                </label>
+                <input name="salasana" id="salasana" class="kayttajakentta" type="password" placeholder="Anna salasana" autocomplete="off" required><br><br>
+            </span>
+            <input type="submit" value="Kirjaudu"class="kayttajabutton"><br><br>
+            <p>Eikö sinulla ole vielä tunnuksia? </p>
+            <p><strong><a href="rekisteroidy.php">Luo tunnukset tästä.</a></strong></p><br>
+            </form>
         </div>
     </div>
-    <div class='footer'>
-        <?php
-            include 'footer.php';
-        ?>
-    </div>
+        <footer>
+            <?php
+                include 'footer.php';
+            ?>
+        </footer>
 </div>
 
 

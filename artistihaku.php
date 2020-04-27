@@ -19,10 +19,8 @@
         include 'linkkivalikko.php';
         naytaLinkkivalikko();
     ?>
-    <div class='header'>
-        <button onclick="siirraYlos()" id="ylos" title="ylos"><i class="fas fa-chevron-up"></i></button>
-    </div>
     <div class='container'>
+    <button onclick="siirraYlos()" id="ylos" title="ylos"><i class="fas fa-chevron-up"></i></button>
             <h2>Hae samankaltaisia artisteja <i class="fas fa-search"></i></h2><br>
             <form action="artistihaku.php" method="get" class="haku" id="artistihaku">
                 <input name="nimi" class="hakukentta" id="hakukentta" placeholder="Anna artistin nimi" autocomplete="off"><br>
@@ -48,11 +46,11 @@
             <div id="samankaltaiset"></div><br>
         </div>
     </div>
-    <div class='footer'>
+    <footer>
         <?php
             include 'footer.php';
         ?>
-    </div>
+    </footer>
 </div>
 
 <script> 

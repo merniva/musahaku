@@ -46,14 +46,8 @@
                 <h3>[[[miten?]]]</h3><br>
                 <p>Tietojen haussa hyödynnetään <strong><a href="https://last.fm/">last.fm</a></strong> -palvelun avointa rajapintaa.<br>
                 Sivun ulkoasussa käytetyt ikonit: <strong><a href="https://fontawesome.com/">Fontawesome.</a></strong><br>
-                Taustakuva: <strong><a href="https://pixabay.com/fi/users/davidrockdesign-2595351/">DavidRockDesign.</a></strong>
-                <br><br></p>
+                </p>
             </div>
-    </div>
-    <div class='footer'>
-        <?php
-            include 'footer.php';
-        ?>
     </div>
 </div>
 <script>

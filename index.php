@@ -19,10 +19,8 @@
         include 'linkkivalikko.php';
         naytaLinkkivalikko();
     ?>
-    <div class='header'>
-        <button onclick="siirraYlos()" id="ylos" title="ylos"><i class="fas fa-chevron-up"></i></button>
-    </div>
     <div class='container'>
+    <button onclick="siirraYlos()" id="ylos" title="ylos"><i class="fas fa-chevron-up"></i></button>
             <h2>Hae genren perusteella <i class="fas fa-search"></i></h2><br>
             <form action="index.php" method="get" class="haku" id="genrehaku">
                 <input type="radio" id="albumi" name="genrevalinta" value="albumi" checked>
@@ -56,11 +54,11 @@
             <ul id="lisaInfo"></ul>
         </div>
     </div>
-    <div class='footer'>
+    <footer>
         <?php
             include 'footer.php';
         ?>
-    </div>
+    </footer>
 </div>
 
 <script>
