@@ -34,7 +34,7 @@ if ($stmt = $yhteys->prepare('SELECT id, salasana FROM kayttaja WHERE nimi = ? O
     }
 
 	// Sidotaan parametrit ja tarkistetaan, onko käyttäjänimi jo varattu
-	$stmt->bind_param('ss', $_POST['nimi'], $_POST['email'],);
+	$stmt->bind_param('ss', $_POST['nimi'], $_POST['email']);
 	$stmt->execute();
 	$stmt->store_result();
 	if ($stmt->num_rows > 0) {
