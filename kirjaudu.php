@@ -1,6 +1,8 @@
 <?php
-    session_start();
+header('Location: index.php');
+exit();
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>

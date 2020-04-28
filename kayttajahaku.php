@@ -21,27 +21,21 @@
     ?>
     <div class='container'>
     <button onclick="siirraYlos()" id="ylos" title="ylos"><i class="fas fa-chevron-up"></i></button>
-    <?php
-        if (!isset($_SESSION['nimi'])) {
-            echo "<h4>Ole hyvä ja kirjaudu ensin sisään!</h4>"; 
-        } else {
-            echo "<h2>Hae last.fm -käyttäjän nimellä <i class=\"fas fa-search\"></i></h2><br>
-            <form action=\"kayttajahaku.php\" method=\"get\" class=\"haku\" id=\"kayttajahaku\">
-                <input type=\"radio\" id=\"albumi\" name=\"hakukohde\" value=\"albumi\" checked>
-                    <label for=\"albumi\">Hae käyttäjän kuunnelluimmat albumit &nbsp;</label><br>
-                <input type=\"radio\" id=\"artisti\" name=\"hakukohde\" value=\"artisti\">
-                    <label for=\"artisti\">Hae käyttäjän kuunnelluimmat artistit</label><br><br>
+            <h2>Hae last.fm -käyttäjän nimellä <i class="fas fa-search"></i></h2><br>
+            <form action="kayttajahaku.php" method="get" class="haku" id="kayttajahaku">
+                <input type="radio" id="albumi" name="hakukohde" value="albumi" checked>
+                    <label for="albumi">Hae käyttäjän kuunnelluimmat albumit &nbsp;</label><br>
+                <input type="radio" id="artisti" name="hakukohde" value="artisti">
+                    <label for="artisti">Hae käyttäjän kuunnelluimmat artistit</label><br><br>
                 <h4>Ajalta:</h4>
-                <input type=\"radio\" id=\"vuosi\" name=\"range\" value=\"12month\" checked>
-                    <label for=\"vuosi\">Viimeiset 12 kk &nbsp;</label>
-                <input type=\"radio\" id=\"overall\" name=\"range\" value=\"overall\">
-                    <label for=\"overall\">Kaikki</label>
+                <input type="radio" id="vuosi" name="range" value="12month" checked>
+                    <label for="vuosi">Viimeiset 12 kk &nbsp;</label>
+                <input type="radio" id="overall" name="range" value="overall">
+                    <label for="overall">Kaikki</label>
                 <br><br>
-                <input name=\"nimi\" class=\"hakukentta\" placeholder=\"Kirjoita käyttäjätunnus\" autocomplete=\"off\" required><br>
-                <input type=\"submit\" name=\"button\" class=\"button\" id=\"hakubutton\" value=\"HAE\"><br>
-            </form><br>";
-        }
-    ?>
+                <input name="nimi" class="hakukentta" placeholder="Kirjoita käyttäjätunnus" autocomplete="off" required><br>
+                <input type="submit" name="button" class="button" id="hakubutton" value="HAE"><br>
+            </form><br>
     </div>
     <div id='lataus'>
     </div>
